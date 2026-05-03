@@ -1,0 +1,11 @@
+body {
+    padding-bottom: 40px;
+}
+.navbar-brand {
+    font-weight: bold;
+}
+
+/* posiziona messaggi di alert con margine */
+.alert {
+    margin-top: 1rem;
+}
