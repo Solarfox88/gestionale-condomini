@@ -15,7 +15,7 @@ if (!$condominio) {
 
 // gestione aggiornamento
 $msg = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $data = [
         'nome' => trim($_POST['nome'] ?? $condominio['nome']),
         'codice_fiscale' => $_POST['codice_fiscale'] ?? null,
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // aggiorna l'oggetto condominio
             $condominio = get_condominio($id);
         } else {
-            $msg = 'Errore durante l’aggiornamento.';
+            $msg = 'Errore durante l'aggiornamento.';
         }
     } else {
         $msg = 'Il campo nome è obbligatorio.';
@@ -50,6 +50,7 @@ include __DIR__ . '/../includes/header.php';
     <div class="alert alert-info"><?php echo htmlspecialchars($msg); ?></div>
 <?php endif; ?>
 <form method="post">
+    <?php echo csrf_field(); ?>
     <div class="mb-2">
         <label class="form-label">Nome</label>
         <input type="text" class="form-control" name="nome" value="<?php echo htmlspecialchars($condominio['nome']); ?>" required>

@@ -8,7 +8,7 @@ require_login();
 require_admin();
 
 $msg = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $id = Movimenti::create($_POST);
     $msg = $id ? 'Movimento registrato correttamente.' : 'Errore durante la registrazione del movimento.';
 }
@@ -39,6 +39,7 @@ include __DIR__ . '/../includes/header.php';
 
 <h4>Nuovo movimento</h4>
 <form method="post" class="row g-2">
+<?php echo csrf_field(); ?>
 <div class="col-md-3"><label class="form-label">Esercizio</label><select name="esercizio_id" class="form-select" required><?php foreach ($esercizi as $e): ?><option value="<?php echo (int)$e['id']; ?>" data-condominio="<?php echo (int)$e['condominio_id']; ?>"><?php echo htmlspecialchars(($e['condominio_nome'] ?? '').' - '.$e['nome']); ?></option><?php endforeach; ?></select></div>
 <div class="col-md-3"><label class="form-label">Condominio</label><select name="condominio_id" class="form-select" required><?php foreach ($condomini as $c): ?><option value="<?php echo (int)$c['id']; ?>"><?php echo htmlspecialchars($c['nome']); ?></option><?php endforeach; ?></select></div>
 <div class="col-md-2"><label class="form-label">Tipo</label><select name="tipo" class="form-select"><option value="entrata">Entrata</option><option value="uscita">Uscita</option></select></div>

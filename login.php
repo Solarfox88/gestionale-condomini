@@ -13,7 +13,7 @@ if (is_logged_in()) {
 }
 
 $error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
     if (login_user($email, $password)) {
@@ -36,6 +36,7 @@ include __DIR__ . '/includes/header.php';
     <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
 <?php endif; ?>
 <form method="post" novalidate>
+    <?php echo csrf_field(); ?>
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
         <input type="email" class="form-control" id="email" name="email" required>

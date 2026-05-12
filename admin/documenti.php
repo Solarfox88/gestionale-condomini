@@ -13,7 +13,7 @@ $condomini = get_condomini();
 
 $msg = '';
 // Gestione upload
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file']) && csrf_verify()) {
     $cid = (int)($_POST['condominio_id'] ?? 0);
     $titolo = trim($_POST['titolo'] ?? '');
     $categoria = trim($_POST['categoria'] ?? 'Generale');
@@ -80,6 +80,7 @@ include __DIR__ . '/../includes/header.php';
 
 <h4>Carica nuovo documento</h4>
 <form method="post" enctype="multipart/form-data">
+    <?php echo csrf_field(); ?>
     <div class="mb-2">
         <label class="form-label">Condominio</label>
         <select name="condominio_id" class="form-select" required>

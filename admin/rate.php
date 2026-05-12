@@ -8,7 +8,7 @@ require_login();
 require_admin();
 
 $msg = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['azione'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['azione']) && csrf_verify()) {
     if ($_POST['azione'] === 'crea_rata') {
         $id = Rate::create($_POST);
         $msg = $id ? 'Rata creata correttamente.' : 'Errore durante la creazione della rata.';
@@ -42,6 +42,7 @@ include __DIR__ . '/../includes/header.php';
 <td><?php echo htmlspecialchars($r['stato']); ?></td>
 <td>
 <form method="post" class="d-flex gap-1">
+<?php echo csrf_field(); ?>
 <input type="hidden" name="azione" value="registra_pagamento">
 <input type="hidden" name="rata_id" value="<?php echo (int)$r['id']; ?>">
 <input type="hidden" name="persona_id" value="">
@@ -58,6 +59,7 @@ include __DIR__ . '/../includes/header.php';
 
 <h4>Nuova rata</h4>
 <form method="post" class="row g-2">
+<?php echo csrf_field(); ?>
 <input type="hidden" name="azione" value="crea_rata">
 <div class="col-md-3"><label class="form-label">Esercizio</label><select name="esercizio_id" class="form-select" required><?php foreach ($esercizi as $e): ?><option value="<?php echo (int)$e['id']; ?>"><?php echo htmlspecialchars(($e['condominio_nome'] ?? '').' - '.$e['nome']); ?></option><?php endforeach; ?></select></div>
 <div class="col-md-3"><label class="form-label">Condominio</label><select name="condominio_id" class="form-select" required><?php foreach ($condomini as $c): ?><option value="<?php echo (int)$c['id']; ?>"><?php echo htmlspecialchars($c['nome']); ?></option><?php endforeach; ?></select></div>
