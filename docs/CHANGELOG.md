@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.3.0 - Riparti millesimali avanzati (2026-05-13)
+
+### Nuove funzionalita
+
+- **Tabelle millesimali personalizzate**: Creazione di tabelle millesimali custom per condominio (es. giardino, garage), con valori per unita e totale quadratura
+- **Riparti avanzati**: Categoria spesa, filtro per scala/palazzina, tabella personalizzata, spese individuali (100% su una unita)
+- **Esclusione unita da riparto**: Possibilita di escludere/includere singole unita dal calcolo con ricalcolo automatico
+- **Rettifica manuale quote**: Modifica importo per singola unita prima dell'approvazione, con possibilita di reset
+- **Controllo differenza**: Avviso visivo se somma quote effettive non quadra con importo totale
+- **Report/CSV riparto**: Esportazione CSV dettaglio quote con millesimi, importi calcolati, rettifiche, esclusioni
+- **Rate collegate a riparto**: Le rate generate da riparto mantengono il riferimento (`riparto_id`) per tracciabilita
+- **Pagina millesimi potenziata**: Tab standard + tab tabelle personalizzate con CRUD completo e quadratura live
+
+### Database
+
+- Nuove tabelle: `tabelle_millesimali`, `millesimi_personalizzati`
+- Colonne aggiunte a `riparti`: `tabella_personalizzata_id`, `categoria_id`, `scala_filtro`
+- Colonne aggiunte a `riparti_dettaglio`: `esclusa`, `importo_rettificato`
+- Colonna aggiunta a `rate`: `riparto_id`
+- Tipo spesa esteso con `individuale`
+
 ## v1.2.0 - Contabilita professionale (2026-05-13)
 
 ### Nuove funzionalita
