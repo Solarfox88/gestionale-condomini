@@ -55,14 +55,18 @@ Stato:
 
 Obiettivo: calcolare quote e rate da tabelle millesimali.
 
-Moduli previsti:
+Completato:
 
-- millesimi proprietà;
-- millesimi scale;
-- millesimi ascensore;
-- millesimi riscaldamento;
-- riparto spese ordinarie e straordinarie;
-- generazione automatica rate.
+- [x] tabelle millesimali (proprietà, scale, ascensore, riscaldamento);
+- [x] pagina admin per modifica bulk millesimi per condominio (`admin/millesimi.php`);
+- [x] riepilogo totali millesimi con evidenziazione (verde = 1000, rosso = diverso);
+- [x] tabelle DB `riparti` e `riparti_dettaglio`;
+- [x] creazione riparto con selezione tabella millesimale e tipo spesa;
+- [x] calcolo automatico quote per unità in base ai millesimi;
+- [x] arrotondamento corretto (conguaglio sull'ultima unità);
+- [x] workflow: bozza → calcolato → approvato → rate generate;
+- [x] generazione automatica rate con suddivisione in N rate mensili;
+- [x] pagina dettaglio riparto con quote, percentuali e azioni.
 
 ## Fase 5 - Ticket e manutenzioni
 

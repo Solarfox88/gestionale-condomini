@@ -28,6 +28,8 @@
                             <li class="nav-item"><a class="nav-link" href="/admin/documenti.php">Documenti</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/esercizi.php">Esercizi</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/movimenti.php">Movimenti</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/millesimi.php">Millesimi</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/riparti.php">Riparti</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/rate.php">Rate</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/ticket.php">Ticket</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/assemblee.php">Assemblee</a></li>

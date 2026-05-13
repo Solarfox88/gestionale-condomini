@@ -253,6 +253,34 @@ CREATE TABLE IF NOT EXISTS assemblee_presenze (
     FOREIGN KEY (delegato_da) REFERENCES persone(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS riparti (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    condominio_id INT NOT NULL,
+    esercizio_id INT NOT NULL,
+    descrizione VARCHAR(255) NOT NULL,
+    tipo_millesimi ENUM('proprieta','scale','ascensore','riscaldamento','personalizzato') NOT NULL DEFAULT 'proprieta',
+    importo_totale DECIMAL(12,2) NOT NULL,
+    tipo_spesa ENUM('ordinaria','straordinaria') NOT NULL DEFAULT 'ordinaria',
+    stato ENUM('bozza','calcolato','approvato','rate_generate') NOT NULL DEFAULT 'bozza',
+    num_rate TINYINT NOT NULL DEFAULT 1,
+    note TEXT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (condominio_id) REFERENCES condomini(id) ON DELETE CASCADE,
+    FOREIGN KEY (esercizio_id) REFERENCES esercizi(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS riparti_dettaglio (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    riparto_id INT NOT NULL,
+    unita_id INT NOT NULL,
+    millesimi DECIMAL(10,4) NOT NULL DEFAULT 0,
+    importo DECIMAL(12,2) NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (riparto_id) REFERENCES riparti(id) ON DELETE CASCADE,
+    FOREIGN KEY (unita_id) REFERENCES unita_immobiliari(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS audit_logs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NULL,
