@@ -1,86 +1,133 @@
 # Installazione su SupportHost / cPanel
 
+## Requisiti
+
+- PHP 8.0+ con estensione PDO MySQL
+- MySQL 5.7+ / MariaDB 10.3+
+- Apache con .htaccess abilitato
+
 ## 1. Preparazione hosting
 
-1. Crea un account cPanel separato per il dominio del gestionale.
-2. Crea un database MySQL/MariaDB.
-3. Crea un utente database e assegna tutti i permessi al database.
-4. Carica i file del repository nella cartella pubblica del dominio o sottodominio.
+1. Accedi al pannello cPanel del tuo hosting SupportHost
+2. Crea un sottodominio o usa il dominio principale
+3. Crea un database MySQL da **Database MySQL** in cPanel
+4. Crea un utente database e assegnagli **tutti i permessi** al database creato
+5. Annota: nome database, utente, password
 
-## 2. Database
+## 2. Upload file
 
-Importa il file:
+1. Accedi al **File Manager** di cPanel (o usa FTP)
+2. Naviga nella cartella pubblica del dominio/sottodominio (es. `public_html/gestionale/`)
+3. Carica tutti i file del progetto mantenendo la struttura delle cartelle
 
-```sql
-database/schema.sql
+**Oppure via FTP:**
+```bash
+# Con FileZilla o altro client FTP
+# Host: il tuo dominio
+# Utente/password: quelli di cPanel
+# Caricare nella cartella pubblica
 ```
 
-Puoi importarlo da phpMyAdmin oppure da terminale se disponibile.
+## 3. Importa database
 
-## 3. Configurazione
+Da **phpMyAdmin** in cPanel:
 
-Apri:
+1. Seleziona il database creato
+2. Clicca su **Importa**
+3. Carica il file `database/schema.sql`
+4. (Opzionale) Importa anche `database/seed.sql` per categorie spesa base e admin demo
 
-```text
-config/config.php
+**Oppure da terminale (se disponibile):**
+```bash
+mysql -u utente_db -p nome_db < database/schema.sql
+mysql -u utente_db -p nome_db < database/seed.sql
 ```
 
-Aggiorna:
+## 4. Configurazione
+
+Modifica `config/config.php` con i parametri del tuo database:
 
 ```php
 $host = 'localhost';
-$dbname = 'nome_database';
+$dbname = 'nome_del_tuo_database';
 $user = 'utente_database';
 $password = 'password_database';
 ```
 
-## 4. Storage documenti
+## 5. Permessi cartelle
 
-La cartella:
+Imposta i permessi corretti:
 
-```text
-storage/documents
+```
+storage/             -> 755 o 775
+storage/documents/   -> 755 o 775
 ```
 
-deve essere scrivibile dal server web.
+Da cPanel File Manager: tasto destro sulla cartella > Permessi > 755.
 
-Permessi consigliati:
+Verifica che i file `.htaccess` in `storage/`, `app/`, `config/` siano presenti (impediscono l'accesso diretto dal browser).
 
-```text
-755 o 775
-```
+## 6. Primo accesso
 
-Per produzione è preferibile spostare lo storage fuori dalla public root e aggiornare `STORAGE_PATH`.
+**Se hai importato seed.sql:**
+- Email: `admin@gestionale.local`
+- Password: `password`
+- **Cambia la password subito dopo il primo accesso!**
 
-## 5. Primo accesso admin
-
-Crea un utente dal form di registrazione, poi imposta manualmente nel database:
-
+**Senza seed.sql:**
+1. Registra un nuovo utente da `/register.php`
+2. Imposta manualmente il ruolo admin nel database:
 ```sql
 UPDATE users SET role='admin', status='active' WHERE email='tua-email@example.com';
 ```
 
-## 6. Checklist produzione
+## 7. Checklist produzione
 
-Prima dell'uso reale:
+- [ ] HTTPS attivo (Let's Encrypt da cPanel)
+- [ ] Password admin cambiata da quella demo
+- [ ] Backup database automatico configurato (cPanel > Backup Wizard)
+- [ ] Permessi storage corretti
+- [ ] File `.htaccess` presenti in storage/, app/, config/
+- [ ] Verificato caricamento documenti
+- [ ] Verificato login/logout
 
-- Abilitare HTTPS.
-- Proteggere `storage` da accesso diretto.
-- Configurare backup database.
-- Configurare backup documenti.
-- Verificare upload file.
-- Inserire CSRF token nei form.
-- Configurare una policy password.
-- Verificare ruoli e permessi.
+## 8. Moduli inclusi
 
-## 7. Moduli inclusi
+### Amministratore
+- Dashboard con panoramica completa
+- Condomini (CRUD + dettaglio con tab)
+- Unita immobiliari con millesimi
+- Persone/anagrafiche
+- Documenti con upload sicuro
+- Esercizi contabili con riepilogo
+- Categorie spesa
+- Movimenti/prima nota
+- Millesimi e riparti
+- Rate con pagamento diretto
+- Pagamenti
+- Morosita con CSV export
+- Ticket con messaggi e note interne
+- Assemblee con presenze
+- Report con CSV export
+- Gestione utenti
 
-- Login/logout/registrazione.
-- Condomini.
-- Unità immobiliari.
-- Persone.
-- Documenti.
-- Esercizi contabili.
-- Movimenti.
-- Rate e pagamenti.
-- Ticket, assemblee e log a livello schema e classi base.
+### Area Condomino
+- Dashboard personale
+- Ticket (apertura e messaggi)
+- Profilo e cambio password
+- Documenti, rate, assemblee
+
+## 9. Limiti noti
+
+- Nessuna generazione PDF nativa (usare la stampa del browser)
+- Nessun invio email integrato (da implementare con servizio SMTP)
+- Non richiede Composer
+- Non richiede Docker
+
+## 10. Supporto
+
+Per problemi di installazione verificare:
+1. Versione PHP (8.0+) da cPanel > Seleziona versione PHP
+2. Estensioni PHP attive: pdo_mysql, mbstring, fileinfo
+3. Permessi cartelle storage
+4. Parametri database in config.php

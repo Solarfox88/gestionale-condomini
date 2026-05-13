@@ -1,62 +1,82 @@
-# Condomini Gestionale
+# Gestionale Condomini
 
-Condomini Gestionale è una base per un gestionale condominiale scritto in PHP.  
-Questa versione fornisce una struttura iniziale per creare un software di gestione di condomini, unità immobiliari, persone e documenti.  
-È pensata per essere installata in un ambiente di hosting condiviso come **SupportHost** e può essere facilmente estesa secondo le proprie esigenze.
+Gestionale condominiale completo scritto in PHP/MySQL con Bootstrap 5.  
+Pensato per amministratori di condominio, installabile su hosting condiviso (SupportHost/cPanel).
 
-## Funzionalità incluse
+## Funzionalita
 
-- **Autenticazione**: login e registrazione con password hash sicura.
-- **Ruoli**: ruoli di base `admin` e `condomino` con permessi limitati.
-- **Gestione condomini**: elenco dei condomini con possibilità di aggiungere e modificare.
-- **Gestione unità immobiliari**: elenco delle unità per ogni condominio.
-- **Anagrafiche persone**: registrazione e gestione dei proprietari/condomini.
-- **Archivio documenti**: upload dei documenti condominiali con controllo della visibilità.
+### Amministratore
+- **Dashboard**: panoramica condomini, unita, persone, ticket, rate, morosita, assemblee
+- **Condomini**: CRUD completo con scheda dettaglio e tab (unita, documenti, esercizi, rate, ticket, assemblee)
+- **Unita immobiliari**: CRUD con millesimi (4 tabelle), associazioni persone, filtri
+- **Persone/Anagrafiche**: persone fisiche, aziende, fornitori con ricerca e dettaglio
+- **Documenti**: upload sicuro, visibilita (pubblico/condominio/unita/privato), 12 categorie
+- **Esercizi contabili**: CRUD con riepilogo entrate/uscite/saldo
+- **Categorie spesa**: 10 categorie predefinite + personalizzabili
+- **Movimenti/Prima nota**: entrate/uscite con filtri, saldo progressivo, categorie, persone
+- **Millesimi**: modifica bulk con controllo somma = 1000
+- **Riparti**: distribuzione spese con calcolo quote e generazione automatica rate
+- **Rate**: filtri per stato, pagamento diretto tramite modal, auto-scaduta
+- **Pagamenti**: storico completo con filtri
+- **Morosita**: rate scadute con giorni ritardo, CSV export, stampa
+- **Ticket**: messaggi, note interne, cambio stato/priorita/assegnazione, 7 stati
+- **Assemblee**: presenze con millesimi, deleghe, verbale, 4 stati
+- **Report**: 6 tipi con visualizzazione e CSV export
+- **Gestione utenti**: approvazione, ruoli, stati
 
-Molti moduli sono solo abbozzati e vanno completati in base alle necessità del vostro progetto.  
-Per esempio, mancano la ripartizione millesimale, la contabilità, le rate e le assemblee.  
-L'architettura è pensata per facilitare l'aggiunta di ulteriori funzionalità.
+### Area Condomino
+- Dashboard con condomini, rate, documenti, ticket, assemblee
+- Apertura e gestione ticket con messaggi
+- Profilo e cambio password
+- Visualizzazione documenti accessibili
+
+### Sicurezza
+- Prepared statements (PDO) su tutte le query
+- CSRF token su tutti i form POST
+- htmlspecialchars() su tutti gli output
+- Audit log per login, CRUD, pagamenti
+- Storage protetto con .htaccess
+- Session regenerate su login
 
 ## Requisiti
 
-- PHP 8.0 o superiore con estensione PDO per MySQL abilitata.
-- Server web (Apache, Nginx o simili).
-- Database MySQL/MariaDB.
+- PHP 8.0+ con estensione PDO MySQL
+- MySQL 5.7+ / MariaDB 10.3+
+- Apache con mod_rewrite (per .htaccess)
 
-## Installazione
+## Installazione rapida
 
-1. Copiare l'intera cartella `condomini` nel proprio spazio web (ad esempio in `/public_html/condomini`).
-2. Creare un database MySQL, ad esempio `condomini_db`.
-3. Importare lo schema dal file `database/schema.sql` all’interno del nuovo database.  
-   Potete farlo da riga di comando (`mysql -u utente -p condomini_db < schema.sql`) oppure tramite phpMyAdmin.
-4. Modificare il file `config/config.php` impostando i parametri di connessione al database (`$host`, `$dbname`, `$user`, `$password`).
-5. Assicurarsi che la directory `storage/documents` sia scrivibile dal server web (permessi 755 o 775).
-6. Accedere alla pagina di login e creare un nuovo utente amministratore tramite il modulo di registrazione.  
-   Nella tabella `users` potete modificare il campo `role` in `admin` direttamente nel database se necessario.
+1. Caricare i file sul server (FTP/cPanel File Manager)
+2. Creare database MySQL e importare `database/schema.sql`
+3. (Opzionale) Importare `database/seed.sql` per categorie spesa e admin demo
+4. Configurare `config/config.php` con i parametri del database
+5. Impostare permessi 755 su `storage/`
+6. Accedere con admin demo: `admin@gestionale.local` / `password`
 
-## Sicurezza
+Guida dettagliata: [docs/INSTALL_SUPPORTHOST.md](docs/INSTALL_SUPPORTHOST.md)
 
-- Tutte le password sono memorizzate usando `password_hash()` con l’algoritmo predefinito.
-- Le sessioni PHP sono inizializzate in `config/config.php` e vengono rigenerate dopo il login.
-- È presente un controllo di permesso minimo per distinguere tra amministratori e condomini.
-- I file caricati vengono salvati nella cartella `storage/documents` al di fuori della root pubblica e sono serviti tramite lo script `download.php` che verifica i permessi.
+## Struttura
 
-## Struttura del progetto
+```
+config/          Configurazione database e costanti
+app/             Classi PHP (Auth, Condomini, Rate, Tickets, Assemblee, ecc.)
+admin/           Pagine amministratore
+area-condomino/  Pagine area riservata condomino
+includes/        Header e footer comuni
+assets/          CSS, JS
+database/        schema.sql + seed.sql
+storage/         Documenti caricati (protetto)
+docs/            Documentazione
+```
 
-- `index.php` – pagina iniziale, reindirizza alla dashboard corretta se l’utente è loggato oppure alla pagina di login.
-- `login.php` – modulo di autenticazione.
-- `register.php` – modulo di registrazione (gli account sono creati come `condomino` e necessitano l’approvazione di un amministratore per l’accesso completo).
-- `logout.php` – effettua il logout distruggendo la sessione.
-- `admin/` – contiene tutte le pagine destinate all’amministratore (dashboard, condomini, unità, documenti, utenti).
-- `area-condomino/` – contiene le pagine riservate ai condomini.
-- `app/` – funzioni PHP riutilizzabili (autenticazione, database, helpers).
-- `config/` – file di configurazione (connessione database e costanti).
-- `database/` – contiene lo script SQL per la creazione delle tabelle.
-- `storage/` – directory protetta per i file caricati (documenti).
-- `assets/` – file statici come CSS e JavaScript.
+## Documentazione
 
-## Note
+- [Installazione SupportHost](docs/INSTALL_SUPPORTHOST.md)
+- [Guida Admin](docs/USER_GUIDE_ADMIN.md)
+- [Guida Condomino](docs/USER_GUIDE_CONDOMINO.md)
+- [Changelog](docs/CHANGELOG.md)
+- [Roadmap](docs/ROADMAP.md)
 
-Questo progetto è un punto di partenza e non un prodotto finito.  
-Per un'applicazione completa dovrete integrare funzionalità come la gestione dei millesimi, la ripartizione delle spese, la generazione di PDF per bilanci e verbali, le comunicazioni via email e molto altro.  
-L’architettura modulare vi consente di estendere il sistema senza stravolgere la struttura di base.
+## Licenza
+
+Progetto privato. Tutti i diritti riservati.
