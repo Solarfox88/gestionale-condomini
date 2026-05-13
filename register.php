@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
         if ($userId) {
             $success = true;
         } else {
-            $errors[] = 'Registrazione fallita. L'email potrebbe essere già utilizzata.';
+            $errors[] = 'Registrazione fallita. L\'email potrebbe essere già utilizzata.';
         }
     }
 }
@@ -47,7 +47,7 @@ include __DIR__ . '/includes/header.php';
 ?>
 <h2>Registrazione Condòmino</h2>
 <?php if ($success): ?>
-    <div class="alert alert-success">Registrazione avvenuta con successo! Attendere l'approvazione dell'amministratore.</div>
+    <div class="alert alert-success">Registrazione avvenuta con successo! Attendere l&apos;approvazione dell&apos;amministratore.</div>
 <?php else: ?>
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger">

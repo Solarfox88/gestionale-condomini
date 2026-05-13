@@ -9,7 +9,7 @@ require_admin();
 $msg = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $id = Esercizi::create($_POST);
-    $msg = $id ? 'Esercizio creato correttamente.' : 'Errore durante la creazione dell'esercizio.';
+    $msg = $id ? 'Esercizio creato correttamente.' : 'Errore durante la creazione dell\'esercizio.';
 }
 
 $condomini = get_condomini();

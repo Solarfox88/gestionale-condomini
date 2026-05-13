@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
             // aggiorna l'oggetto condominio
             $condominio = get_condominio($id);
         } else {
-            $msg = 'Errore durante l'aggiornamento.';
+            $msg = 'Errore durante l\'aggiornamento.';
         }
     } else {
         $msg = 'Il campo nome è obbligatorio.';
