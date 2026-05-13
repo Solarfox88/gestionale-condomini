@@ -61,7 +61,10 @@ include __DIR__ . '/../includes/header.php';
                         <td><?php echo (int)$cond['id']; ?></td>
                         <td><?php echo htmlspecialchars($cond['nome']); ?></td>
                         <td><?php echo htmlspecialchars($cond['comune']); ?></td>
-                        <td><a href="/admin/condominio-edit.php?id=<?php echo (int)$cond['id']; ?>" class="btn btn-sm btn-secondary">Modifica</a></td>
+                        <td>
+                            <a href="/admin/condominio-detail.php?id=<?php echo (int)$cond['id']; ?>" class="btn btn-sm btn-primary">Dettaglio</a>
+                            <a href="/admin/condominio-edit.php?id=<?php echo (int)$cond['id']; ?>" class="btn btn-sm btn-secondary">Modifica</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

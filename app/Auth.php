@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/Helpers.php';
 
 /**
  * Effettua il login dell'utente.
@@ -22,6 +23,9 @@ function login_user(string $email, string $password): bool
             'email' => $user['email'],
             'role' => $user['role'],
         ];
+        $upd = $pdo->prepare('UPDATE users SET last_login_at=NOW() WHERE id=:id');
+        $upd->execute(['id' => $user['id']]);
+        audit_log('login', 'users', (int)$user['id']);
         return true;
     }
     return false;
@@ -108,4 +112,50 @@ function require_admin(): void
         echo 'Accesso negato';
         exit;
     }
+}
+
+/**
+ * Cambia la password dell'utente.
+ */
+function change_password(int $userId, string $currentPassword, string $newPassword): bool
+{
+    global $pdo;
+    $stmt = $pdo->prepare('SELECT password_hash FROM users WHERE id=:id');
+    $stmt->execute(['id' => $userId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$row || !password_verify($currentPassword, $row['password_hash'])) {
+        return false;
+    }
+    $hash = password_hash($newPassword, PASSWORD_DEFAULT);
+    $upd = $pdo->prepare('UPDATE users SET password_hash=:hash, updated_at=NOW() WHERE id=:id');
+    $upd->execute(['hash' => $hash, 'id' => $userId]);
+    audit_log('change_password', 'users', $userId);
+    return true;
+}
+
+/**
+ * Restituisce un utente per ID.
+ */
+function get_user(int $id): ?array
+{
+    global $pdo;
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE id=:id');
+    $stmt->execute(['id' => $id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ?: null;
+}
+
+/**
+ * Aggiorna il profilo utente.
+ */
+function update_user_profile(int $id, array $data): bool
+{
+    global $pdo;
+    $stmt = $pdo->prepare('UPDATE users SET name=:name, phone=:phone, fiscal_code=:fiscal_code, updated_at=NOW() WHERE id=:id');
+    return $stmt->execute([
+        'id' => $id,
+        'name' => $data['name'],
+        'phone' => $data['phone'] ?? null,
+        'fiscal_code' => $data['fiscal_code'] ?? null,
+    ]);
 }
