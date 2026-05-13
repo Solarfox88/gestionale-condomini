@@ -12,42 +12,44 @@ Obiettivo: rendere disponibile una base installabile e navigabile.
 
 Completato nel repository:
 
-- configurazione PDO centralizzata;
-- login, logout e registrazione;
-- ruoli base `admin`, `condomino`, `fornitore`;
-- gestione condomini;
-- gestione unità immobiliari;
-- gestione persone/anagrafiche;
-- gestione documenti;
-- area condòmino base;
-- audit log a schema;
-- menu amministratore.
+- [x] configurazione PDO centralizzata;
+- [x] login, logout e registrazione;
+- [x] ruoli base `admin`, `condomino`, `fornitore`;
+- [x] gestione condomini (CRUD);
+- [x] gestione unità immobiliari (CRUD + dettaglio);
+- [x] gestione persone/anagrafiche (CRUD);
+- [x] gestione documenti (upload con validazione);
+- [x] area condòmino base (dashboard, documenti, ticket);
+- [x] gestione utenti (approvazione, ruoli, stati);
+- [x] audit log a schema;
+- [x] menu amministratore completo.
 
 ## Fase 2 - Relazioni unità/persone
 
 Obiettivo: collegare ogni unità immobiliare a proprietari, inquilini, delegati o altri soggetti.
 
-Completato/previsto:
+Completato:
 
-- tabella `unita_persone`;
-- ruoli: proprietario, comproprietario, inquilino, usufruttuario, delegato, altro;
-- percentuale di possesso/rapporto;
-- date di inizio/fine rapporto;
-- base per controllo documenti e rate per singola unità.
+- [x] tabella `unita_persone`;
+- [x] ruoli: proprietario, comproprietario, inquilino, usufruttuario, delegato, altro;
+- [x] percentuale di possesso/rapporto;
+- [x] date di inizio/fine rapporto;
+- [x] pagina dettaglio unità con gestione associazioni persone;
+- [x] base per controllo documenti e rate per singola unità.
 
 ## Fase 3 - Contabilità base
 
 Obiettivo: gestire esercizi, prima nota, rate e pagamenti.
 
-Moduli previsti:
+Stato:
 
-- `esercizi`;
-- `categorie_spesa`;
-- `movimenti`;
-- `rate`;
-- `pagamenti`;
-- riepilogo saldi per condominio, unità e persona;
-- morosità.
+- [x] `esercizi` (CRUD);
+- [ ] `categorie_spesa` (solo schema DB);
+- [x] `movimenti` (CRUD);
+- [x] `rate` (CRUD + registrazione pagamenti);
+- [x] `pagamenti` (registrazione da pagina rate);
+- [ ] riepilogo saldi per condominio, unità e persona;
+- [ ] morosità.
 
 ## Fase 4 - Riparti e millesimi
 
@@ -66,27 +68,28 @@ Moduli previsti:
 
 Obiettivo: sostituire chat e messaggi informali con un tracciamento ordinato.
 
-Moduli previsti:
+Stato:
 
-- apertura ticket da condòmino;
-- assegnazione a fornitore;
-- messaggi interni/pubblici;
-- stati del ticket;
-- collegamento a documenti, foto e movimenti contabili.
+- [x] apertura ticket da condòmino (area condomino);
+- [x] apertura ticket da admin;
+- [x] gestione stati del ticket;
+- [ ] assegnazione a fornitore;
+- [ ] messaggi interni/pubblici;
+- [ ] collegamento a documenti, foto e movimenti contabili.
 
 ## Fase 6 - Assemblee e verbali
 
 Obiettivo: gestire convocazioni, presenze, deleghe, quorum, votazioni e verbali.
 
-Moduli previsti:
+Stato:
 
-- assemblee;
-- ordine del giorno;
-- presenze;
-- deleghe;
-- millesimi presenti;
-- verbale;
-- pubblicazione documento finale.
+- [x] assemblee (CRUD con convocazioni);
+- [x] ordine del giorno;
+- [ ] presenze;
+- [ ] deleghe;
+- [ ] millesimi presenti;
+- [ ] verbale;
+- [ ] pubblicazione documento finale.
 
 ## Fase 7 - Report, PDF ed esportazioni
 
@@ -110,17 +113,18 @@ Obiettivo: hardening per uso reale.
 
 Checklist:
 
-- CSRF token nei form;
-- validazione upload con whitelist MIME;
-- storage fuori public root;
-- gestione errori senza dettagli sensibili;
-- log attività;
-- backup DB e documenti;
-- HTTPS obbligatorio;
-- policy password;
-- recupero password;
-- approvazione utenti;
-- separazione ambienti staging/produzione.
+- [x] CSRF token nei form;
+- [x] validazione upload con whitelist MIME;
+- [x] .htaccess per protezione directory sensibili;
+- [x] .gitignore;
+- [x] gestione errori senza dettagli sensibili;
+- [x] approvazione utenti (pagina admin/utenti.php);
+- [ ] log attività (schema pronto, implementazione pendente);
+- [ ] backup DB e documenti;
+- [ ] HTTPS obbligatorio;
+- [ ] policy password;
+- [ ] recupero password;
+- [ ] separazione ambienti staging/produzione.
 
 ## Priorità consigliata
 

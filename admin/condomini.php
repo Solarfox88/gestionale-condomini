@@ -7,7 +7,7 @@ require_admin();
 
 // gestione form creazione condominio
 $msg = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $nome = trim($_POST['nome'] ?? '');
     if ($nome !== '') {
         $data = [
@@ -70,6 +70,7 @@ include __DIR__ . '/../includes/header.php';
     <div class="col-md-6">
         <h4>Crea nuovo condominio</h4>
         <form method="post">
+            <?php echo csrf_field(); ?>
             <div class="mb-2">
                 <label class="form-label">Nome</label>
                 <input type="text" class="form-control" name="nome" required>

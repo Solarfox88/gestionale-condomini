@@ -7,9 +7,9 @@ require_login();
 require_admin();
 
 $msg = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $id = Esercizi::create($_POST);
-    $msg = $id ? 'Esercizio creato correttamente.' : 'Errore durante la creazione dell’esercizio.';
+    $msg = $id ? 'Esercizio creato correttamente.' : 'Errore durante la creazione dell\'esercizio.';
 }
 
 $condomini = get_condomini();
@@ -39,6 +39,7 @@ include __DIR__ . '/../includes/header.php';
   <div class="col-md-4">
     <h4>Nuovo esercizio</h4>
     <form method="post">
+      <?php echo csrf_field(); ?>
       <div class="mb-2"><label class="form-label">Condominio</label><select name="condominio_id" class="form-select" required><?php foreach ($condomini as $c): ?><option value="<?php echo (int)$c['id']; ?>"><?php echo htmlspecialchars($c['nome']); ?></option><?php endforeach; ?></select></div>
       <div class="mb-2"><label class="form-label">Nome</label><input name="nome" class="form-control" required placeholder="Esercizio 2026"></div>
       <div class="mb-2"><label class="form-label">Data inizio</label><input type="date" name="data_inizio" class="form-control" required></div>

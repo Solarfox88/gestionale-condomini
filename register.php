@@ -14,7 +14,7 @@ if (is_logged_in()) {
 
 $errors = [];
 $success = false;
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($userId) {
             $success = true;
         } else {
-            $errors[] = 'Registrazione fallita. L’email potrebbe essere già utilizzata.';
+            $errors[] = 'Registrazione fallita. L\'email potrebbe essere già utilizzata.';
         }
     }
 }
@@ -47,7 +47,7 @@ include __DIR__ . '/includes/header.php';
 ?>
 <h2>Registrazione Condòmino</h2>
 <?php if ($success): ?>
-    <div class="alert alert-success">Registrazione avvenuta con successo! Attendere l’approvazione dell’amministratore.</div>
+    <div class="alert alert-success">Registrazione avvenuta con successo! Attendere l&apos;approvazione dell&apos;amministratore.</div>
 <?php else: ?>
     <?php if (!empty($errors)): ?>
         <div class="alert alert-danger">
@@ -59,6 +59,7 @@ include __DIR__ . '/includes/header.php';
         </div>
     <?php endif; ?>
     <form method="post" novalidate>
+        <?php echo csrf_field(); ?>
         <div class="mb-3">
             <label for="name" class="form-label">Nome completo</label>
             <input type="text" class="form-control" id="name" name="name" required value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>">

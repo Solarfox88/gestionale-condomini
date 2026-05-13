@@ -1,0 +1,23 @@
+# Deny access to sensitive directories
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^config/ - [F,L]
+    RewriteRule ^app/ - [F,L]
+    RewriteRule ^storage/ - [F,L]
+    RewriteRule ^database/ - [F,L]
+    RewriteRule ^docs/ - [F,L]
+</IfModule>
+
+# Disable directory listing
+Options -Indexes
+
+# Prevent access to hidden files
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>

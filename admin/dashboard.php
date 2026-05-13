@@ -1,12 +1,12 @@
 <?php
-require_once '../config/config.php';
-require_once '../app/Auth.php';
-require_once '../app/Condomini.php';
-require_once '../app/Documenti.php';
-require_once '../includes/header.php';
-
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../app/Auth.php';
+require_once __DIR__ . '/../app/Condomini.php';
+require_once __DIR__ . '/../app/Documenti.php';
 require_login();
 require_admin();
+
+include __DIR__ . '/../includes/header.php';
 
 // Count condomini and documents
 $condomini = get_condomini();
@@ -38,4 +38,4 @@ $numDocumenti = count($documenti);
     </div>
 </div>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>

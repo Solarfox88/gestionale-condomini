@@ -1,0 +1,16 @@
+# Uploaded documents
+storage/documents/*
+!storage/documents/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment overrides
+.env

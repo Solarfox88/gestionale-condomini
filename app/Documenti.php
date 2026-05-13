@@ -34,8 +34,16 @@ function upload_documento(array $file, int $condominioId, string $titolo, string
     if ($file['error'] !== UPLOAD_ERR_OK) {
         return false;
     }
-    // genera nome file unico
-    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    if ($file['size'] > UPLOAD_MAX_SIZE) {
+        return false;
+    }
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+    if (!in_array($mime, UPLOAD_ALLOWED_MIME, true)) {
+        return false;
+    }
+    $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $uniqueName = uniqid('doc_', true) . '.' . $ext;
     $destDir = STORAGE_PATH . '/documents';
     if (!file_exists($destDir)) {
@@ -44,7 +52,7 @@ function upload_documento(array $file, int $condominioId, string $titolo, string
     $destPath = $destDir . '/' . $uniqueName;
     if (move_uploaded_file($file['tmp_name'], $destPath)) {
         global $pdo;
-        $stmt = $pdo->prepare("INSERT INTO documenti (condominio_id, unita_id, titolo, categoria, descrizione, file_path, visibility, uploaded_by, created_at) VALUES (:cid, :uid, :titolo, :categoria, :descrizione, :file_path, :visibility, :uploaded_by, NOW())");
+        $stmt = $pdo->prepare("INSERT INTO documenti (condominio_id, unita_id, titolo, categoria, descrizione, file_path, original_name, mime_type, visibility, uploaded_by, created_at) VALUES (:cid, :uid, :titolo, :categoria, :descrizione, :file_path, :original_name, :mime_type, :visibility, :uploaded_by, NOW())");
         $ok = $stmt->execute([
             'cid' => $condominioId,
             'uid' => $unitaId,
@@ -52,6 +60,8 @@ function upload_documento(array $file, int $condominioId, string $titolo, string
             'categoria' => $categoria,
             'descrizione' => '',
             'file_path' => $uniqueName,
+            'original_name' => $file['name'],
+            'mime_type' => $mime,
             'visibility' => $visibility,
             'uploaded_by' => $uploadedBy,
         ]);
