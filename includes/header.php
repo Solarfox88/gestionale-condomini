@@ -29,6 +29,9 @@
                             <li class="nav-item"><a class="nav-link" href="/admin/esercizi.php">Esercizi</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/movimenti.php">Movimenti</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/rate.php">Rate</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/ticket.php">Ticket</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/assemblee.php">Assemblee</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/utenti.php">Utenti</a></li>
                         <?php else: ?>
                             <li class="nav-item"><a class="nav-link" href="/area-condomino/dashboard.php">Area Condòmino</a></li>
                         <?php endif; ?>
