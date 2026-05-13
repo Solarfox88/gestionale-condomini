@@ -101,7 +101,7 @@ include __DIR__ . '/../includes/header.php';
             <td><?php echo h($d['categoria']); ?></td>
             <td><?php echo h($d['visibility']); ?></td>
             <td><?php echo h($d['created_at']); ?></td>
-            <td><a href="/documenti_download.php?id=<?php echo (int)$d['id']; ?>" class="btn btn-sm btn-outline-secondary">Scarica</a></td>
+            <td><a href="<?php echo url('/documenti_download.php?id=' . (int)$d['id']); ?>" class="btn btn-sm btn-outline-secondary">Scarica</a></td>
         </tr>
         <?php endforeach; ?>
         </tbody>

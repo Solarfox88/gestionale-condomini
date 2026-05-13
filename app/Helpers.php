@@ -61,9 +61,9 @@ function stato_badge(string $stato): string
 /**
  * Scorciatoia per escape HTML.
  */
-function h(string $s): string
+function h(?string $s): string
 {
-    return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars($s ?? '', ENT_QUOTES, 'UTF-8');
 }
 
 /**

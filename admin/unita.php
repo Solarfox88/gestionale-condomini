@@ -69,7 +69,7 @@ include __DIR__ . '/../includes/header.php';
                         <td><?php echo htmlspecialchars($u['interno'] ?? ''); ?></td>
                         <td><?php echo $u['mq'] ? number_format((float)$u['mq'], 2, ',', '.') : ''; ?></td>
                         <td><?php echo number_format((float)$u['millesimi_proprieta'], 4, ',', '.'); ?></td>
-                        <td><a href="/admin/unita-detail.php?id=<?php echo (int)$u['id']; ?>" class="btn btn-sm btn-secondary">Dettaglio</a></td>
+                        <td><a href="<?php echo url('/admin/unita-detail.php?id=' . (int)$u['id']); ?>" class="btn btn-sm btn-secondary">Dettaglio</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

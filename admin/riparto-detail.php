@@ -8,7 +8,7 @@ require_admin();
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $riparto = Riparti::find($id);
 if (!$riparto) {
-    header('Location: /admin/riparti.php');
+    header('Location: ' . url('/admin/riparti.php'));
     exit;
 }
 
@@ -134,7 +134,7 @@ include __DIR__ . '/../includes/header.php';
         </form>
         <?php endif; ?>
 
-        <a href="/admin/riparti.php" class="btn btn-outline-secondary">Torna alla lista</a>
+        <a href="<?php echo url('/admin/riparti.php'); ?>" class="btn btn-outline-secondary">Torna alla lista</a>
     </div>
     </div>
 </div>

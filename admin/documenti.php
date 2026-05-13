@@ -72,7 +72,7 @@ include __DIR__ . '/../includes/header.php';
             <td><?php echo htmlspecialchars($doc['categoria']); ?></td>
             <td><?php echo htmlspecialchars($doc['visibility']); ?></td>
             <td><?php echo htmlspecialchars($doc['created_at']); ?></td>
-            <td><a href="/documenti_download.php?id=<?php echo (int)$doc['id']; ?>" class="btn btn-sm btn-primary">Scarica</a></td>
+            <td><a href="<?php echo url('/documenti_download.php?id=' . (int)$doc['id']); ?>" class="btn btn-sm btn-primary">Scarica</a></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

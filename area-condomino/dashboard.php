@@ -88,7 +88,7 @@ include __DIR__ . '/../includes/header.php';
     <thead><tr><th>Titolo</th><th>Categoria</th><th>Data</th><th></th></tr></thead>
     <tbody>
     <?php foreach ($documenti as $d): ?>
-    <tr><td><?php echo h($d['titolo']); ?></td><td><?php echo h($d['categoria']); ?></td><td><?php echo h($d['created_at']); ?></td><td><a href="/documenti_download.php?id=<?php echo (int)$d['id']; ?>" class="btn btn-sm btn-secondary">Scarica</a></td></tr>
+    <tr><td><?php echo h($d['titolo']); ?></td><td><?php echo h($d['categoria']); ?></td><td><?php echo h($d['created_at']); ?></td><td><a href="<?php echo url('/documenti_download.php?id=' . (int)$d['id']); ?>" class="btn btn-sm btn-secondary">Scarica</a></td></tr>
     <?php endforeach; ?>
     </tbody>
 </table>

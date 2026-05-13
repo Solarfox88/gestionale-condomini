@@ -1,5 +1,31 @@
 # Changelog
 
+## v1.1.0 - Pre-produzione SupportHost (2026-05-13)
+
+### Hardening sicurezza
+
+- Sessioni: aggiunto `use_strict_mode`, `cookie_httponly`, `cookie_samesite=Lax`
+- Tutti i redirect e link usano `url()` helper per supporto sottocartella (BASE_URL)
+- `h()` reso null-safe (`?string` con null coalescing)
+- Download documenti usa nome file originale
+
+### Fix
+
+- Tutti i percorsi hardcoded `/admin/...` sostituiti con `url('/admin/...')`
+- Redirect login/logout/register usano `url()` per compatibilita sottocartella
+- Header navbar completamente aggiornato con `url()` su tutti i link
+
+### Configurazione
+
+- Aggiunta costante `BASE_URL` in `config/config.php` per installazione in sottocartella
+- Aggiunta funzione `url()` helper per generare percorsi corretti
+- Documentazione aggiornata con istruzioni BASE_URL
+
+### Test E2E
+
+- 56 test E2E automatizzati passano (login, CRUD, pagamenti, area condomino, sicurezza, audit log)
+- Copertura: homepage, login, 17 pagine admin, condominio, persona, unita, esercizio, movimento, rata, pagamento, ticket, assemblea, morosita, report, CSV export, registrazione, approvazione utente, area condomino, controllo accessi
+
 ## v1.0.0 - Versione completa (2026-05-12)
 
 ### Nuove funzionalita
