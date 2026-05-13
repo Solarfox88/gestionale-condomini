@@ -97,7 +97,7 @@ function logout_user(): void
 function require_login(): void
 {
     if (!is_logged_in()) {
-        header('Location: /login.php');
+        header('Location: ' . url('/login.php'));
         exit;
     }
 }

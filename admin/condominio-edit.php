@@ -103,7 +103,7 @@ include __DIR__ . '/../includes/header.php';
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Salva</button>
-    <a href="/admin/condomini.php" class="btn btn-secondary">Indietro</a>
+    <a href="<?php echo url('/admin/condomini.php'); ?>" class="btn btn-secondary">Indietro</a>
 </form>
 
 <?php include __DIR__ . '/../includes/footer.php';

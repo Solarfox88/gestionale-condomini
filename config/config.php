@@ -11,15 +11,27 @@ $user = 'db_user';
 // Password del database
 $password = 'db_password';
 
+// --------------- Base URL ---------------
+// Impostare se il gestionale è installato in una sottocartella.
+// Es: '/gestionale' se raggiungibile da example.com/gestionale
+// Lasciare vuoto '' se installato nella root del dominio.
+if (!defined('BASE_URL')) {
+    define('BASE_URL', '');
+}
+
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die('Impossibile connettersi al database. Verifica la configurazione.');
 }
 
 // Avvia la sessione se non già avviata
 if (session_status() == PHP_SESSION_NONE) {
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.cookie_httponly', '1');
+    ini_set('session.cookie_samesite', 'Lax');
     session_start();
 }
 
@@ -60,3 +72,9 @@ define('UPLOAD_ALLOWED_MIME', [
     'text/plain',
     'text/csv',
 ]);
+
+// --------------- URL helper ---------------
+function url(string $path = ''): string
+{
+    return BASE_URL . $path;
+}

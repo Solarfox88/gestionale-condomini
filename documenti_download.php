@@ -39,7 +39,8 @@ if (!file_exists($filePath)) {
 // Invia file
 header('Content-Description: File Transfer');
 header('Content-Type: application/octet-stream');
-header('Content-Disposition: attachment; filename="' . basename($documento['file_path']) . '"');
+$downloadName = !empty($documento['original_name']) ? $documento['original_name'] : basename($documento['file_path']);
+header('Content-Disposition: attachment; filename="' . $downloadName . '"');
 header('Content-Length: ' . filesize($filePath));
 readfile($filePath);
 exit;

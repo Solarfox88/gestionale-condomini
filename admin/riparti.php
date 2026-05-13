@@ -66,7 +66,7 @@ include __DIR__ . '/../includes/header.php';
         <span class="badge bg-<?php echo $cls; ?>"><?php echo htmlspecialchars($r['stato']); ?></span>
     </td>
     <td>
-        <a href="/admin/riparto-detail.php?id=<?php echo (int)$r['id']; ?>" class="btn btn-sm btn-outline-primary">Dettaglio</a>
+        <a href="<?php echo url('/admin/riparto-detail.php?id=' . (int)$r['id']); ?>" class="btn btn-sm btn-outline-primary">Dettaglio</a>
         <?php if ($r['stato'] === 'bozza'): ?>
         <form method="post" class="d-inline" onsubmit="return confirm('Eliminare questo riparto?');">
             <?php echo csrf_field(); ?>

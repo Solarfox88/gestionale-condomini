@@ -5,9 +5,9 @@ require_once __DIR__ . '/app/Auth.php';
 // Se già loggato, reindirizza
 if (is_logged_in()) {
     if (is_admin()) {
-        header('Location: /admin/dashboard.php');
+        header('Location: ' . url('/admin/dashboard.php'));
     } else {
-        header('Location: /area-condomino/dashboard.php');
+        header('Location: ' . url('/area-condomino/dashboard.php'));
     }
     exit;
 }
@@ -19,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     if (login_user($email, $password)) {
         // login ok
         if (is_admin()) {
-            header('Location: /admin/dashboard.php');
+            header('Location: ' . url('/admin/dashboard.php'));
         } else {
-            header('Location: /area-condomino/dashboard.php');
+            header('Location: ' . url('/area-condomino/dashboard.php'));
         }
         exit;
     } else {

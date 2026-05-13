@@ -106,7 +106,7 @@ include __DIR__ . '/../includes/header.php';
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Salva</button>
-            <a href="/admin/unita.php" class="btn btn-secondary">Indietro</a>
+            <a href="<?php echo url('/admin/unita.php'); ?>" class="btn btn-secondary">Indietro</a>
         </form>
     </div>
     <div class="col-md-6">

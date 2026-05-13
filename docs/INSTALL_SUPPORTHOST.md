@@ -54,6 +54,20 @@ $user = 'utente_database';
 $password = 'password_database';
 ```
 
+### Installazione in sottocartella
+
+Se il gestionale è installato in una sottocartella (es. `example.com/gestionale`),
+modifica anche la costante `BASE_URL` in `config/config.php`:
+
+```php
+define('BASE_URL', '/gestionale');
+```
+
+Se installato nella root del dominio, lasciare vuoto:
+```php
+define('BASE_URL', '');
+```
+
 ## 5. Permessi cartelle
 
 Imposta i permessi corretti:
