@@ -10,6 +10,8 @@ require_once __DIR__ . '/../app/Tickets.php';
 require_once __DIR__ . '/../app/Rate.php';
 require_once __DIR__ . '/../app/Assemblee.php';
 require_once __DIR__ . '/../app/Movimenti.php';
+require_once __DIR__ . '/../app/Esercizi.php';
+require_once __DIR__ . '/../app/Preventivi.php';
 require_login();
 require_admin();
 
@@ -30,6 +32,9 @@ $saldoMov = $pdo->query("SELECT COALESCE(SUM(CASE WHEN tipo='entrata' THEN impor
 
 $documentiRecenti = $pdo->query("SELECT d.titolo, d.created_at, c.nome AS condominio_nome FROM documenti d JOIN condomini c ON c.id=d.condominio_id ORDER BY d.created_at DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
 $prossimeAssemblee = Assemblee::prossime(5);
+
+$eserciziAperti = $pdo->query("SELECT e.id, e.nome, e.stato, c.nome AS condominio_nome FROM esercizi e JOIN condomini c ON c.id=e.condominio_id WHERE e.stato='aperto' ORDER BY e.data_inizio DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+$numPreventivi = $pdo->query("SELECT COUNT(*) FROM preventivi")->fetchColumn();
 
 include __DIR__ . '/../includes/header.php';
 ?>
@@ -128,6 +133,39 @@ include __DIR__ . '/../includes/header.php';
             </tbody>
         </table>
         <?php else: ?><p class="text-muted">Nessuna assemblea in programma.</p><?php endif; ?>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h4>Esercizi aperti</h4>
+        <?php if ($eserciziAperti): ?>
+        <table class="table table-sm table-striped">
+            <thead><tr><th>Esercizio</th><th>Condominio</th><th>Stato</th><th>Azioni</th></tr></thead>
+            <tbody>
+            <?php foreach ($eserciziAperti as $ea): ?>
+            <tr>
+                <td><a href="<?php echo url('/admin/esercizio-detail.php?id=' . (int)$ea['id']); ?>"><?php echo h($ea['nome']); ?></a></td>
+                <td><?php echo h($ea['condominio_nome']); ?></td>
+                <td><?php echo stato_badge($ea['stato']); ?></td>
+                <td>
+                    <a href="<?php echo url('/admin/consuntivi.php?esercizio_id=' . (int)$ea['id']); ?>" class="btn btn-outline-info btn-sm">Consuntivo</a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php else: ?><p class="text-muted">Nessun esercizio aperto.</p><?php endif; ?>
+    </div>
+    <div class="col-md-6">
+        <h4>Contabilita</h4>
+        <div class="list-group">
+            <a href="<?php echo url('/admin/preventivi.php'); ?>" class="list-group-item list-group-item-action d-flex justify-content-between">
+                Preventivi <span class="badge bg-primary"><?php echo (int)$numPreventivi; ?></span>
+            </a>
+            <a href="<?php echo url('/admin/consuntivi.php'); ?>" class="list-group-item list-group-item-action">Consuntivi / Confronto</a>
+            <a href="<?php echo url('/admin/esercizi.php'); ?>" class="list-group-item list-group-item-action">Esercizi contabili</a>
+        </div>
     </div>
 </div>
 

@@ -15,12 +15,21 @@ $msg = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $azione = $_POST['azione'] ?? 'crea';
     if ($azione === 'crea') {
-        $id = Movimenti::create($_POST);
-        $msg = $id ? 'Movimento registrato.' : 'Errore.';
-        if ($id) audit_log('create', 'movimenti', (int)$id);
+        if (!empty($_POST['esercizio_id']) && Esercizi::isChiuso((int)$_POST['esercizio_id'])) {
+            $msg = 'Impossibile: l\'esercizio selezionato e chiuso.';
+        } else {
+            $id = Movimenti::create($_POST);
+            $msg = $id ? 'Movimento registrato.' : 'Errore.';
+            if ($id) audit_log('create', 'movimenti', (int)$id);
+        }
     } elseif ($azione === 'elimina') {
-        $ok = Movimenti::delete((int)$_POST['id']);
-        $msg = $ok ? 'Movimento eliminato.' : 'Errore.';
+        $mov = Movimenti::find((int)$_POST['id']);
+        if ($mov && Esercizi::isChiuso((int)$mov['esercizio_id'])) {
+            $msg = 'Impossibile: l\'esercizio collegato e chiuso.';
+        } else {
+            $ok = Movimenti::delete((int)$_POST['id']);
+            $msg = $ok ? 'Movimento eliminato.' : 'Errore.';
+        }
     }
 }
 

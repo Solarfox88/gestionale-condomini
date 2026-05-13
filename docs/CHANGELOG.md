@@ -1,5 +1,27 @@
 # Changelog
 
+## v1.2.0 - Contabilita professionale (2026-05-13)
+
+### Nuove funzionalita
+
+- **Preventivi**: CRUD bilancio preventivo per esercizio con voci per categoria (entrate/uscite previste), approvazione, totali automatici
+- **Consuntivi**: Calcolo automatico da movimenti reali raggruppati per categoria, confronto preventivo vs consuntivo con scostamenti, quadrature contabili (entrate, uscite, saldo, rate emesse, incassato, residuo), esportazione CSV
+- **Chiusura esercizio**: Workflow aperto→chiuso con conferma, blocco modifiche su movimenti/rate/pagamenti per esercizi chiusi, riapertura solo admin
+- **Conguagli**: Calcolo automatico conguagli per unita (quota spettante vs pagato), generazione rate di conguaglio con scadenza personalizzabile
+- **Quadrature contabili**: Widget con totali entrate/uscite/saldo/rate/incassato/residuo in esercizio-detail e consuntivi
+- **Dashboard admin potenziata**: Esercizi aperti con link consuntivo, sezione contabilita con link rapidi preventivi/consuntivi
+
+### Sicurezza
+
+- Blocco creazione/eliminazione movimenti su esercizi chiusi
+- Blocco creazione/pagamento/eliminazione rate su esercizi chiusi
+- Blocco eliminazione pagamenti su esercizi chiusi
+- Audit log per chiusura/riapertura esercizio, approvazione preventivo
+
+### Database
+
+- Nuove tabelle: `preventivi`, `preventivo_voci`, `conguagli`
+
 ## v1.1.0 - Pre-produzione SupportHost (2026-05-13)
 
 ### Hardening sicurezza

@@ -5,14 +5,25 @@ require_once __DIR__ . '/../app/Helpers.php';
 require_once __DIR__ . '/../app/Rate.php';
 require_once __DIR__ . '/../app/Pagamenti.php';
 require_once __DIR__ . '/../app/Condomini.php';
+require_once __DIR__ . '/../app/Esercizi.php';
 require_login();
 require_admin();
 
 $msg = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     if (($_POST['azione'] ?? '') === 'elimina') {
-        $ok = Pagamenti::delete((int)$_POST['id']);
-        $msg = $ok ? 'Pagamento eliminato.' : 'Errore.';
+        $pag = Pagamenti::find((int)$_POST['id']);
+        $blocked = false;
+        if ($pag && !empty($pag['rata_id'])) {
+            $rata = Rate::find((int)$pag['rata_id']);
+            if ($rata && Esercizi::isChiuso((int)$rata['esercizio_id'])) $blocked = true;
+        }
+        if ($blocked) {
+            $msg = 'Impossibile: l\'esercizio collegato e chiuso.';
+        } else {
+            $ok = Pagamenti::delete((int)$_POST['id']);
+            $msg = $ok ? 'Pagamento eliminato.' : 'Errore.';
+        }
     }
 }
 
