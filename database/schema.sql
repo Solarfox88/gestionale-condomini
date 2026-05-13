@@ -281,6 +281,47 @@ CREATE TABLE IF NOT EXISTS riparti_dettaglio (
     FOREIGN KEY (unita_id) REFERENCES unita_immobiliari(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS preventivi (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    esercizio_id INT NOT NULL,
+    condominio_id INT NOT NULL,
+    titolo VARCHAR(190) NOT NULL,
+    stato ENUM('bozza','approvato') NOT NULL DEFAULT 'bozza',
+    note TEXT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (esercizio_id) REFERENCES esercizi(id) ON DELETE CASCADE,
+    FOREIGN KEY (condominio_id) REFERENCES condomini(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS preventivo_voci (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    preventivo_id INT NOT NULL,
+    categoria_id INT NULL,
+    descrizione VARCHAR(255) NOT NULL,
+    tipo ENUM('entrata','uscita') NOT NULL DEFAULT 'uscita',
+    importo_previsto DECIMAL(12,2) NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (preventivo_id) REFERENCES preventivi(id) ON DELETE CASCADE,
+    FOREIGN KEY (categoria_id) REFERENCES categorie_spesa(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS conguagli (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    esercizio_id INT NOT NULL,
+    condominio_id INT NOT NULL,
+    unita_id INT NOT NULL,
+    importo_previsto DECIMAL(12,2) NOT NULL DEFAULT 0,
+    importo_consuntivo DECIMAL(12,2) NOT NULL DEFAULT 0,
+    importo_conguaglio DECIMAL(12,2) NOT NULL DEFAULT 0,
+    rata_id INT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (esercizio_id) REFERENCES esercizi(id) ON DELETE CASCADE,
+    FOREIGN KEY (condominio_id) REFERENCES condomini(id) ON DELETE CASCADE,
+    FOREIGN KEY (unita_id) REFERENCES unita_immobiliari(id) ON DELETE CASCADE,
+    FOREIGN KEY (rata_id) REFERENCES rate(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS audit_logs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NULL,

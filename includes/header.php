@@ -39,6 +39,9 @@
                                     <li><a class="dropdown-item" href="<?php echo url('/admin/movimenti.php'); ?>">Movimenti</a></li>
                                     <li><a class="dropdown-item" href="<?php echo url('/admin/millesimi.php'); ?>">Millesimi</a></li>
                                     <li><a class="dropdown-item" href="<?php echo url('/admin/riparti.php'); ?>">Riparti</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/preventivi.php'); ?>">Preventivi</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/consuntivi.php'); ?>">Consuntivi</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">

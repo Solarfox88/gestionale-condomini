@@ -16,16 +16,30 @@ $msg = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $azione = $_POST['azione'] ?? '';
     if ($azione === 'crea_rata') {
-        $id = Rate::create($_POST);
-        $msg = $id ? 'Rata creata.' : 'Errore.';
-        if ($id) audit_log('create', 'rate', (int)$id);
+        if (!empty($_POST['esercizio_id']) && Esercizi::isChiuso((int)$_POST['esercizio_id'])) {
+            $msg = 'Impossibile: l\'esercizio selezionato e chiuso.';
+        } else {
+            $id = Rate::create($_POST);
+            $msg = $id ? 'Rata creata.' : 'Errore.';
+            if ($id) audit_log('create', 'rate', (int)$id);
+        }
     } elseif ($azione === 'paga') {
-        $ok = Rate::registraPagamento((int)$_POST['rata_id'], $_POST);
-        $msg = $ok ? 'Pagamento registrato.' : 'Errore.';
-        if ($ok) audit_log('pagamento', 'rate', (int)$_POST['rata_id'], 'importo=' . ($_POST['importo'] ?? ''));
+        $rata = Rate::find((int)$_POST['rata_id']);
+        if ($rata && Esercizi::isChiuso((int)$rata['esercizio_id'])) {
+            $msg = 'Impossibile: l\'esercizio collegato e chiuso.';
+        } else {
+            $ok = Rate::registraPagamento((int)$_POST['rata_id'], $_POST);
+            $msg = $ok ? 'Pagamento registrato.' : 'Errore.';
+            if ($ok) audit_log('pagamento', 'rate', (int)$_POST['rata_id'], 'importo=' . ($_POST['importo'] ?? ''));
+        }
     } elseif ($azione === 'elimina') {
-        $ok = Rate::delete((int)$_POST['id']);
-        $msg = $ok ? 'Rata eliminata.' : 'Errore.';
+        $rata = Rate::find((int)$_POST['id']);
+        if ($rata && Esercizi::isChiuso((int)$rata['esercizio_id'])) {
+            $msg = 'Impossibile: l\'esercizio collegato e chiuso.';
+        } else {
+            $ok = Rate::delete((int)$_POST['id']);
+            $msg = $ok ? 'Rata eliminata.' : 'Errore.';
+        }
     }
 }
 
