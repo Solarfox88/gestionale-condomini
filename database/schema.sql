@@ -153,11 +153,13 @@ CREATE TABLE IF NOT EXISTS rate (
     importo DECIMAL(10,2) NOT NULL,
     scadenza DATE NOT NULL,
     stato ENUM('da_pagare','parziale','pagata','scaduta') NOT NULL DEFAULT 'da_pagare',
+    riparto_id INT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (esercizio_id) REFERENCES esercizi(id) ON DELETE CASCADE,
     FOREIGN KEY (condominio_id) REFERENCES condomini(id) ON DELETE CASCADE,
-    FOREIGN KEY (unita_id) REFERENCES unita_immobiliari(id) ON DELETE CASCADE
+    FOREIGN KEY (unita_id) REFERENCES unita_immobiliari(id) ON DELETE CASCADE,
+    FOREIGN KEY (riparto_id) REFERENCES riparti(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS pagamenti (
@@ -253,21 +255,45 @@ CREATE TABLE IF NOT EXISTS assemblee_presenze (
     FOREIGN KEY (delegato_da) REFERENCES persone(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS tabelle_millesimali (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    condominio_id INT NOT NULL,
+    nome VARCHAR(190) NOT NULL,
+    descrizione TEXT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (condominio_id) REFERENCES condomini(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS millesimi_personalizzati (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tabella_id INT NOT NULL,
+    unita_id INT NOT NULL,
+    valore DECIMAL(10,4) NOT NULL DEFAULT 0,
+    FOREIGN KEY (tabella_id) REFERENCES tabelle_millesimali(id) ON DELETE CASCADE,
+    FOREIGN KEY (unita_id) REFERENCES unita_immobiliari(id) ON DELETE CASCADE,
+    UNIQUE KEY uq_tabella_unita (tabella_id, unita_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS riparti (
     id INT AUTO_INCREMENT PRIMARY KEY,
     condominio_id INT NOT NULL,
     esercizio_id INT NOT NULL,
     descrizione VARCHAR(255) NOT NULL,
     tipo_millesimi ENUM('proprieta','scale','ascensore','riscaldamento','personalizzato') NOT NULL DEFAULT 'proprieta',
+    tabella_personalizzata_id INT NULL,
     importo_totale DECIMAL(12,2) NOT NULL,
-    tipo_spesa ENUM('ordinaria','straordinaria') NOT NULL DEFAULT 'ordinaria',
+    tipo_spesa ENUM('ordinaria','straordinaria','individuale') NOT NULL DEFAULT 'ordinaria',
+    categoria_id INT NULL,
+    scala_filtro VARCHAR(10) NULL,
     stato ENUM('bozza','calcolato','approvato','rate_generate') NOT NULL DEFAULT 'bozza',
     num_rate TINYINT NOT NULL DEFAULT 1,
     note TEXT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (condominio_id) REFERENCES condomini(id) ON DELETE CASCADE,
-    FOREIGN KEY (esercizio_id) REFERENCES esercizi(id) ON DELETE CASCADE
+    FOREIGN KEY (esercizio_id) REFERENCES esercizi(id) ON DELETE CASCADE,
+    FOREIGN KEY (tabella_personalizzata_id) REFERENCES tabelle_millesimali(id) ON DELETE SET NULL,
+    FOREIGN KEY (categoria_id) REFERENCES categorie_spesa(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS riparti_dettaglio (
@@ -276,6 +302,8 @@ CREATE TABLE IF NOT EXISTS riparti_dettaglio (
     unita_id INT NOT NULL,
     millesimi DECIMAL(10,4) NOT NULL DEFAULT 0,
     importo DECIMAL(12,2) NOT NULL DEFAULT 0,
+    esclusa TINYINT(1) NOT NULL DEFAULT 0,
+    importo_rettificato DECIMAL(12,2) NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (riparto_id) REFERENCES riparti(id) ON DELETE CASCADE,
     FOREIGN KEY (unita_id) REFERENCES unita_immobiliari(id) ON DELETE CASCADE
