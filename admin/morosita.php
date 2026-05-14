@@ -60,6 +60,9 @@ include __DIR__ . '/../includes/header.php';
     <div class="col-auto"><a href="morosita.php" class="btn btn-secondary">Reset</a></div>
     <div class="col-auto"><a href="?<?php echo http_build_query(array_merge($_GET, ['export'=>'csv'])); ?>" class="btn btn-success">Esporta CSV</a></div>
     <div class="col-auto"><button onclick="window.print()" class="btn btn-outline-primary">Stampa</button></div>
+    <?php if ($condFilter): ?>
+    <div class="col-auto"><a href="comunicazioni.php?azione_sollecito=massivo&condominio_id=<?php echo $condFilter; ?>" class="btn btn-warning">Sollecito massivo</a></div>
+    <?php endif; ?>
 </div>
 </form>
 
