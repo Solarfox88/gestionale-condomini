@@ -44,6 +44,8 @@ include __DIR__ . '/../includes/header.php';
             <?php echo csrf_field(); ?><input type="hidden" name="azione" value="elimina">
             <button class="btn btn-danger btn-sm">Elimina</button>
         </form>
+        <a href="stampa-convocazione.php?id=<?php echo $id; ?>" class="btn btn-outline-info btn-sm" target="_blank">Stampa Convocazione</a>
+        <a href="stampa-verbale.php?id=<?php echo $id; ?>" class="btn btn-outline-info btn-sm" target="_blank">Stampa Verbale</a>
         <a href="assemblee.php" class="btn btn-outline-secondary btn-sm">Indietro</a>
     </div>
 </div>

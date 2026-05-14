@@ -94,6 +94,7 @@ include __DIR__ . '/../includes/header.php';
     <h2>Riparto #<?php echo (int)$riparto['id']; ?> &mdash; <?php echo h($riparto['descrizione']); ?> <?php echo stato_badge($riparto['stato']); ?></h2>
     <div>
         <a href="<?php echo url('/admin/riparto-detail.php?id=' . $id . '&export=csv'); ?>" class="btn btn-outline-success btn-sm">Esporta CSV</a>
+        <a href="stampa-riparto.php?id=<?php echo $id; ?>" class="btn btn-outline-info btn-sm" target="_blank">Stampa Riparto</a>
         <a href="<?php echo url('/admin/riparti.php'); ?>" class="btn btn-outline-secondary btn-sm">Indietro</a>
     </div>
 </div>

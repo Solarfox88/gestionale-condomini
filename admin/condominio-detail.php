@@ -38,6 +38,7 @@ include __DIR__ . '/../includes/header.php';
     <h2><?php echo h($cond['nome']); ?></h2>
     <div>
         <a href="condominio-edit.php?id=<?php echo $id; ?>" class="btn btn-secondary">Modifica</a>
+        <a href="stampa-condominio.php?id=<?php echo $id; ?>" class="btn btn-outline-info btn-sm" target="_blank">Stampa Scheda</a>
         <a href="condomini.php" class="btn btn-outline-secondary">Indietro</a>
     </div>
 </div>
