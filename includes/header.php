@@ -64,7 +64,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/report.php'); ?>">Report</a></li>
-                            <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/stampa-documenti.php'); ?>">Stampe</a></li>
+                            <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/stampe.php'); ?>">Stampe</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/utenti.php'); ?>">Utenti</a></li>
                         <?php else: ?>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/area-condomino/dashboard.php'); ?>">Dashboard</a></li>
