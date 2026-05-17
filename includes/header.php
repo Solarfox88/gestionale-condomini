@@ -55,6 +55,15 @@
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/ticket.php'); ?>">Ticket</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/assemblee.php'); ?>">Assemblee</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/report.php'); ?>">Report</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Strumenti</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/import.php'); ?>">Import CSV</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/export.php'); ?>">Export CSV</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/backup.php'); ?>">Backup</a></li>
+                                </ul>
+                            </li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/utenti.php'); ?>">Utenti</a></li>
                         <?php else: ?>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/area-condomino/dashboard.php'); ?>">Dashboard</a></li>

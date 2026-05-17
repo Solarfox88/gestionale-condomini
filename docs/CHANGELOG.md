@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.7.0 - Import/export, migrazione dati e backup (2026-05-14)
+
+### Nuove funzionalita
+
+- **Import CSV** (`admin/import.php`): Import condomini, unita, persone, associazioni, rate, movimenti da file CSV con validazione, anteprima errori e import transazionale
+- **Export CSV** (`admin/export.php`): Export 9 tipi dati (condomini, unita, persone, associazioni, movimenti, rate, pagamenti, morosita, documenti metadata) con filtro condominio opzionale
+- **Backup database** (`admin/backup.php`): Export SQL completo con CREATE TABLE + INSERT, ripristinabile via phpMyAdmin o CLI
+- **Backup documenti**: Download archivio ZIP di tutti i file in storage/
+- **Template CSV scaricabili**: Template per ogni tipo di import con intestazioni e formato corretto
+- **Log backup**: Tracciamento automatico nel log audit di ogni export/import/backup
+- **Menu Strumenti**: Dropdown con Import CSV, Export CSV, Backup
+- **Statistiche DB**: Dimensione database, storage, conteggio righe per tabella
+
 ## v1.3.0 - Riparti millesimali avanzati (2026-05-13)
 
 ### Nuove funzionalita
