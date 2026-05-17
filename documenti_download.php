@@ -2,6 +2,7 @@
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/app/Auth.php';
 require_once __DIR__ . '/app/Documenti.php';
+require_once __DIR__ . '/app/Helpers.php';
 
 // Verifica login
 require_login();
@@ -36,6 +37,7 @@ if (!file_exists($filePath)) {
     echo 'File non trovato';
     exit;
 }
+audit_log('download', 'documenti', $docId, $documento['titolo'] ?? '');
 // Invia file
 header('Content-Description: File Transfer');
 header('Content-Type: application/octet-stream');

@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.8.0 - Audit legale, tracciabilita, blocchi e cancellazione logica (2026-05-12)
+
+### Nuove funzionalita
+
+- **Audit log avanzato** (`admin/audit-log.php`): Visualizzazione completa di tutti gli eventi (login, CRUD, upload/download, export, import, backup, cancellazioni) con filtri per utente, azione, entita e date
+- **Cancellazione logica**: Movimenti, rate, pagamenti, documenti, persone, unita usano soft delete (`deleted_at`) invece di DELETE distruttivi
+- **Tracciamento azioni critiche**: Audit log per creazione/modifica condomini, approvazione utenti, upload/download documenti, cancellazione movimenti/pagamenti
+- **Schema DB aggiornato**: Colonna `deleted_at` aggiunta a movimenti, rate, pagamenti, documenti, persone, unita_immobiliari
+- **Funzioni restore**: Possibilita di ripristinare record cancellati logicamente
+- **Badge colorati azioni**: Visualizzazione con colori diversi per tipo azione nel log
+
 ## v1.3.0 - Riparti millesimali avanzati (2026-05-13)
 
 ### Nuove funzionalita

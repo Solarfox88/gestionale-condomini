@@ -13,7 +13,7 @@ class Movimenti
                 JOIN esercizi e ON e.id=m.esercizio_id
                 LEFT JOIN categorie_spesa cs ON cs.id=m.categoria_id
                 LEFT JOIN persone p ON p.id=m.persona_id';
-        $where = [];
+        $where = ['m.deleted_at IS NULL'];
         $params = [];
         if (!empty($filters['condominio_id'])) {
             $where[] = 'm.condominio_id=:cid';
@@ -88,14 +88,21 @@ class Movimenti
     public static function delete(int $id): bool
     {
         global $pdo;
-        $stmt = $pdo->prepare('DELETE FROM movimenti WHERE id=:id');
+        $stmt = $pdo->prepare('UPDATE movimenti SET deleted_at=NOW() WHERE id=:id AND deleted_at IS NULL');
+        return $stmt->execute(['id' => $id]);
+    }
+
+    public static function restore(int $id): bool
+    {
+        global $pdo;
+        $stmt = $pdo->prepare('UPDATE movimenti SET deleted_at=NULL WHERE id=:id');
         return $stmt->execute(['id' => $id]);
     }
 
     public static function saldoCondominio(int $condominioId): float
     {
         global $pdo;
-        $stmt = $pdo->prepare("SELECT COALESCE(SUM(CASE WHEN tipo='entrata' THEN importo ELSE -importo END),0) AS saldo FROM movimenti WHERE condominio_id=:cid");
+        $stmt = $pdo->prepare("SELECT COALESCE(SUM(CASE WHEN tipo='entrata' THEN importo ELSE -importo END),0) AS saldo FROM movimenti WHERE condominio_id=:cid AND deleted_at IS NULL");
         $stmt->execute(['cid' => $condominioId]);
         return (float)$stmt->fetchColumn();
     }

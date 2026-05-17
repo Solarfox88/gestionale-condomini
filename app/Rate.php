@@ -128,7 +128,14 @@ class Rate
     public static function delete(int $id): bool
     {
         global $pdo;
-        $stmt = $pdo->prepare('DELETE FROM rate WHERE id=:id');
+        $stmt = $pdo->prepare('UPDATE rate SET deleted_at=NOW() WHERE id=:id AND deleted_at IS NULL');
+        return $stmt->execute(['id' => $id]);
+    }
+
+    public static function restore(int $id): bool
+    {
+        global $pdo;
+        $stmt = $pdo->prepare('UPDATE rate SET deleted_at=NULL WHERE id=:id');
         return $stmt->execute(['id' => $id]);
     }
 }

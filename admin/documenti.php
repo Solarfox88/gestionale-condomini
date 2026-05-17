@@ -3,6 +3,7 @@ require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../app/Auth.php';
 require_once __DIR__ . '/../app/Condomini.php';
 require_once __DIR__ . '/../app/Documenti.php';
+require_once __DIR__ . '/../app/Helpers.php';
 require_login();
 require_admin();
 
@@ -21,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file']) && csrf_veri
     if ($cid > 0 && $titolo !== '') {
         $result = upload_documento($_FILES['file'], $cid, $titolo, $categoria, null, $visibility, $_SESSION['user']['id']);
         if ($result) {
+            audit_log('upload', 'documenti', (int)$result, $titolo);
             $msg = 'Documento caricato con successo.';
             $documenti = get_documenti($condominioFilter);
         } else {

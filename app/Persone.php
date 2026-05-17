@@ -59,6 +59,13 @@ function update_persona(int $id, array $data): bool
 function delete_persona(int $id): bool
 {
     global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM persone WHERE id = :id");
+    $stmt = $pdo->prepare("UPDATE persone SET deleted_at=NOW() WHERE id = :id AND deleted_at IS NULL");
+    return $stmt->execute(['id' => $id]);
+}
+
+function restore_persona(int $id): bool
+{
+    global $pdo;
+    $stmt = $pdo->prepare("UPDATE persone SET deleted_at=NULL WHERE id = :id");
     return $stmt->execute(['id' => $id]);
 }

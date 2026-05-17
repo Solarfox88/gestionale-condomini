@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
             $msg = 'Impossibile: l\'esercizio collegato e chiuso.';
         } else {
             $ok = Movimenti::delete((int)$_POST['id']);
-            $msg = $ok ? 'Movimento eliminato.' : 'Errore.';
+            if ($ok) audit_log('soft_delete', 'movimenti', (int)$_POST['id'], 'Movimento archiviato');
+            $msg = $ok ? 'Movimento archiviato.' : 'Errore.';
         }
     }
 }

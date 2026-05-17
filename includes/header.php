@@ -55,6 +55,7 @@
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/ticket.php'); ?>">Ticket</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/assemblee.php'); ?>">Assemblee</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/report.php'); ?>">Report</a></li>
+                            <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/audit-log.php'); ?>">Audit Log</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/utenti.php'); ?>">Utenti</a></li>
                         <?php else: ?>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/area-condomino/dashboard.php'); ?>">Dashboard</a></li>
