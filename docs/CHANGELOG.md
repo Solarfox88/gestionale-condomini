@@ -1,5 +1,31 @@
 # Changelog
 
+## v1.4.0 - PDF, stampe professionali e report ufficiali (2026-05-13)
+
+### Nuove funzionalita
+
+- **Hub stampe** (`admin/stampe.php`): Pagina centralizzata per generare tutte le stampe con selettori
+- **Convocazione assemblea**: Lettera convocazione con OdG, date convocazioni e destinatari
+- **Verbale assemblea**: Presenze, deleghe, millesimi, quorum, OdG e firme
+- **Sollecito morosita**: Lettera sollecito con dettaglio rate scadute, residui e IBAN per pagamento
+- **Situazione contabile unita**: Estratto conto completo con rate, pagamenti, intestatari e saldo
+- **Bilancio preventivo**: Voci per categoria con totali entrate, uscite e saldo
+- **Bilancio consuntivo**: Confronto preventivo/consuntivo con scostamenti e quadrature esercizio
+- **Riparto spese**: Tabella millesimi, quote calcolate, rettifiche, esclusioni e quadratura
+- **Elenco morosi**: Lista rate scadute con proprietari, residui e giorni di ritardo
+- **Ricevuta pagamento**: Ricevuta singola con dati intestatario, importo e metodo
+- **Scheda condominio**: Anagrafica completa, unita, intestatari, esercizi e riepilogo contabile
+- **Registro documenti**: Elenco documenti con filtri per condominio e categoria
+
+### Infrastruttura stampe
+
+- `assets/css/print.css`: Foglio stile ottimizzato per stampa browser e salva-come-PDF
+- `includes/print-header.php` / `includes/print-footer.php`: Template riutilizzabili con intestazione condominio, data stampa e footer
+- Pulsante "Stampa / PDF" + "Indietro" su ogni pagina di stampa
+- Pulsanti stampa aggiunti a: dettaglio assemblea, dettaglio riparto, dettaglio condominio, morosita, preventivo, consuntivo
+- Voce "Stampe" aggiunta al menu di navigazione admin
+- Compatibilita completa con SupportHost/cPanel (HTML puro, nessuna libreria esterna)
+
 ## v1.3.0 - Riparti millesimali avanzati (2026-05-13)
 
 ### Nuove funzionalita

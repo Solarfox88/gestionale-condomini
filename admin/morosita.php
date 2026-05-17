@@ -59,7 +59,8 @@ include __DIR__ . '/../includes/header.php';
     </select></div>
     <div class="col-auto"><a href="morosita.php" class="btn btn-secondary">Reset</a></div>
     <div class="col-auto"><a href="?<?php echo http_build_query(array_merge($_GET, ['export'=>'csv'])); ?>" class="btn btn-success">Esporta CSV</a></div>
-    <div class="col-auto"><button onclick="window.print()" class="btn btn-outline-primary">Stampa</button></div>
+    <div class="col-auto"><a href="stampa-morosi.php?<?php echo $condFilter ? 'condominio_id=' . $condFilter : ''; ?>" class="btn btn-outline-info" target="_blank">Stampa Morosi</a></div>
+    <div class="col-auto"><a href="stampa-sollecito.php?<?php echo $condFilter ? 'condominio_id=' . $condFilter : ''; ?>" class="btn btn-outline-warning" target="_blank">Stampa Sollecito</a></div>
 </div>
 </form>
 

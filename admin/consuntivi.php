@@ -76,6 +76,7 @@ include __DIR__ . '/../includes/header.php';
         <span class="badge bg-secondary">Nessun preventivo collegato</span>
         <?php endif; ?>
         <a href="<?php echo url('/admin/consuntivi.php?esercizio_id=' . $esercizioId . '&export=csv'); ?>" class="btn btn-outline-success btn-sm">Esporta CSV</a>
+        <a href="stampa-consuntivo.php?esercizio_id=<?php echo $esercizioId; ?>" class="btn btn-outline-info btn-sm" target="_blank">Stampa Consuntivo</a>
     </div>
 </div>
 
