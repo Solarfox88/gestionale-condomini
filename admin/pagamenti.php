@@ -22,7 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
             $msg = 'Impossibile: l\'esercizio collegato e chiuso.';
         } else {
             $ok = Pagamenti::delete((int)$_POST['id']);
-            $msg = $ok ? 'Pagamento eliminato.' : 'Errore.';
+            if ($ok) audit_log('soft_delete', 'pagamenti', (int)$_POST['id']);
+            $msg = $ok ? 'Pagamento archiviato.' : 'Errore.';
         }
     }
 }

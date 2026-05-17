@@ -50,7 +50,19 @@ class Pagamenti
     {
         global $pdo;
         $pag = self::find($id);
-        $stmt = $pdo->prepare('DELETE FROM pagamenti WHERE id=:id');
+        $stmt = $pdo->prepare('UPDATE pagamenti SET deleted_at=NOW() WHERE id=:id AND deleted_at IS NULL');
+        $ok = $stmt->execute(['id' => $id]);
+        if ($ok && $pag) {
+            Rate::aggiornaStato((int)$pag['rata_id']);
+        }
+        return $ok;
+    }
+
+    public static function restore(int $id): bool
+    {
+        global $pdo;
+        $pag = self::find($id);
+        $stmt = $pdo->prepare('UPDATE pagamenti SET deleted_at=NULL WHERE id=:id');
         $ok = $stmt->execute(['id' => $id]);
         if ($ok && $pag) {
             Rate::aggiornaStato((int)$pag['rata_id']);

@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../app/Auth.php';
 require_once __DIR__ . '/../app/Users.php';
+require_once __DIR__ . '/../app/Helpers.php';
 require_login();
 require_admin();
 
@@ -12,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     $status = $_POST['status'] ?? 'pending';
     if ($userId > 0) {
         if (update_user_role_status($userId, $role, $status)) {
+            audit_log('update', 'users', $userId, 'role=' . $role . ' status=' . $status);
             $msg = 'Utente aggiornato con successo.';
         } else {
             $msg = 'Errore nell\'aggiornamento dell\'utente.';

@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../app/Auth.php';
 require_once __DIR__ . '/../app/Condomini.php';
+require_once __DIR__ . '/../app/Helpers.php';
 require_login();
 require_admin();
 
@@ -32,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
     ];
     if ($data['nome'] !== '') {
         if (update_condominio($id, $data)) {
+            audit_log('update', 'condomini', $id, $data['nome']);
             $msg = 'Condominio aggiornato con successo.';
             // aggiorna l'oggetto condominio
             $condominio = get_condominio($id);

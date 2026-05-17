@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS unita_immobiliari (
     millesimi_ascensore DECIMAL(10,4) NOT NULL DEFAULT 0,
     millesimi_riscaldamento DECIMAL(10,4) NOT NULL DEFAULT 0,
     status ENUM('active','inactive') NOT NULL DEFAULT 'active',
+    deleted_at DATETIME NULL DEFAULT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (condominio_id) REFERENCES condomini(id) ON DELETE CASCADE
@@ -68,6 +69,7 @@ CREATE TABLE IF NOT EXISTS persone (
     telefono VARCHAR(50) NULL,
     indirizzo VARCHAR(255) NULL,
     note TEXT NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -136,6 +138,7 @@ CREATE TABLE IF NOT EXISTS movimenti (
     data_movimento DATE NOT NULL,
     metodo_pagamento VARCHAR(80) NULL,
     riferimento VARCHAR(190) NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (esercizio_id) REFERENCES esercizi(id) ON DELETE CASCADE,
     FOREIGN KEY (condominio_id) REFERENCES condomini(id) ON DELETE CASCADE,
@@ -154,6 +157,7 @@ CREATE TABLE IF NOT EXISTS rate (
     scadenza DATE NOT NULL,
     stato ENUM('da_pagare','parziale','pagata','scaduta') NOT NULL DEFAULT 'da_pagare',
     riparto_id INT NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (esercizio_id) REFERENCES esercizi(id) ON DELETE CASCADE,
@@ -171,6 +175,7 @@ CREATE TABLE IF NOT EXISTS pagamenti (
     metodo VARCHAR(80) NULL,
     riferimento VARCHAR(190) NULL,
     note TEXT NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (rata_id) REFERENCES rate(id) ON DELETE CASCADE,
     FOREIGN KEY (persona_id) REFERENCES persone(id) ON DELETE SET NULL
@@ -189,6 +194,7 @@ CREATE TABLE IF NOT EXISTS documenti (
     mime_type VARCHAR(120) NULL,
     visibility ENUM('pubblico','condominio','unita','privato') NOT NULL DEFAULT 'condominio',
     uploaded_by INT NOT NULL,
+    deleted_at DATETIME NULL DEFAULT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (condominio_id) REFERENCES condomini(id) ON DELETE CASCADE,
     FOREIGN KEY (unita_id) REFERENCES unita_immobiliari(id) ON DELETE SET NULL,

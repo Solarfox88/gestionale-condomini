@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../app/Auth.php';
 require_once __DIR__ . '/../app/Condomini.php';
+require_once __DIR__ . '/../app/Helpers.php';
 require_login();
 require_admin();
 
@@ -25,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && csrf_verify()) {
             'status' => 'active',
         ];
         if (create_condominio($data)) {
+            audit_log('create', 'condomini', (int)$pdo->lastInsertId(), $nome);
             $msg = 'Condominio creato con successo.';
         } else {
             $msg = 'Errore nella creazione del condominio.';
