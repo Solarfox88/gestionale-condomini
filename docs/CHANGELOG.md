@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.6.0 - Area condòmino evoluta (2026-05-14)
+
+### Nuove funzionalita
+
+- **Dashboard condomino potenziata**: 6 widget (condomini, saldo residuo, rate aperte, rate scadute, pagamenti, comunicazioni non lette) + card rate, documenti recenti, prossime assemblee, ticket aperti, form rapido nuovo ticket
+- **Le mie unita** (`area-condomino/unita.php`): Elenco unita associate con condominio, scala/piano/interno, ruolo (proprietario/inquilino/etc), percentuale, millesimi, date rapporto
+- **Rate e pagamenti** (`area-condomino/rate-pagamenti.php`): Tab rate aperte/pagate, totali dovuto/pagato/residuo, istruzioni bonifico con IBAN e causale suggerita, storico pagamenti
+- **Assemblee** (`area-condomino/assemblee.php`): Lista assemblee con dettaglio, ordine del giorno numerato, verbale, stato, date convocazioni
+- **Profilo evoluto** (`area-condomino/profilo.php`): Dati personali con telefono e codice fiscale, cambio password con conferma, privacy e consensi (email/SMS) con informativa GDPR
+- **Menu navigazione condomino**: 6 voci (Dashboard, Le mie unita, Rate e pagamenti, Assemblee, Comunicazioni, Profilo)
+
+### Miglioramenti
+
+- Accesso protetto: ogni pagina area condomino verifica login e associazione condominio
+- Ticket: visualizzazione messaggi pubblici con risposte inline
+- Comunicazioni: stato lettura integrato nella dashboard
+
 ## v1.5.0 - Comunicazioni massive, notifiche e solleciti (2026-05-14)
 
 ### Nuove funzionalita
