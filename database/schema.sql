@@ -18,8 +18,71 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS studi (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(190) NOT NULL,
+    codice_fiscale VARCHAR(32) NULL,
+    partita_iva VARCHAR(32) NULL,
+    indirizzo VARCHAR(255) NULL,
+    comune VARCHAR(120) NULL,
+    provincia VARCHAR(10) NULL,
+    cap VARCHAR(10) NULL,
+    email VARCHAR(190) NULL,
+    pec VARCHAR(190) NULL,
+    telefono VARCHAR(50) NULL,
+    logo_path VARCHAR(255) NULL,
+    nome_amministratore VARCHAR(190) NULL,
+    piano ENUM('free','base','pro','enterprise') NOT NULL DEFAULT 'free',
+    max_condomini INT NOT NULL DEFAULT 5,
+    max_unita INT NOT NULL DEFAULT 50,
+    max_storage_mb INT NOT NULL DEFAULT 500,
+    abbonamento_stato ENUM('attivo','scaduto','sospeso','trial') NOT NULL DEFAULT 'trial',
+    abbonamento_scadenza DATE NULL,
+    status ENUM('active','inactive') NOT NULL DEFAULT 'active',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS ruoli (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    descrizione TEXT NULL,
+    is_system TINYINT(1) NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS permessi (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    modulo VARCHAR(100) NOT NULL,
+    azione VARCHAR(50) NOT NULL,
+    descrizione VARCHAR(255) NULL,
+    UNIQUE KEY uq_modulo_azione (modulo, azione)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS ruolo_permessi (
+    ruolo_id INT NOT NULL,
+    permesso_id INT NOT NULL,
+    PRIMARY KEY (ruolo_id, permesso_id),
+    FOREIGN KEY (ruolo_id) REFERENCES ruoli(id) ON DELETE CASCADE,
+    FOREIGN KEY (permesso_id) REFERENCES permessi(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS studio_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    studio_id INT NOT NULL,
+    user_id INT NOT NULL,
+    ruolo_id INT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_studio_user (studio_id, user_id),
+    FOREIGN KEY (studio_id) REFERENCES studi(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (ruolo_id) REFERENCES ruoli(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE IF NOT EXISTS condomini (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    studio_id INT NULL,
     nome VARCHAR(190) NOT NULL,
     codice_fiscale VARCHAR(32) NULL,
     indirizzo VARCHAR(255) NULL,
@@ -33,7 +96,8 @@ CREATE TABLE IF NOT EXISTS condomini (
     note TEXT NULL,
     status ENUM('active','inactive','archived') NOT NULL DEFAULT 'active',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (studio_id) REFERENCES studi(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS unita_immobiliari (
