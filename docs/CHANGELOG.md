@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.5.0 - Comunicazioni massive, notifiche e solleciti (2026-05-14)
+
+### Nuove funzionalita
+
+- **Comunicazioni**: Creazione e invio comunicazioni per condominio con destinatari automatici (tutti, per scala, singola unita, singola persona)
+- **Template comunicazioni**: 4 template base (sollecito, convocazione, verbale, generico) con variabili placeholder
+- **Invio email**: Supporto SMTP configurabile da pannello + fallback su mail() PHP
+- **Impostazioni email**: Pagina configurazione SMTP con test connessione e invio di test
+- **Solleciti da morosita**: Creazione sollecito massivo direttamente dalla pagina morosita
+- **Tracciamento invii**: Log email con stato invio/errore, tracciamento lettura destinatari
+- **Area condomino**: Pagina comunicazioni ricevute con stato lettura (nuova/letta)
+- **Menu aggiornato**: Dropdown Comunicazioni con link a comunicazioni, template e impostazioni email
+
+### Database
+
+- Nuove tabelle: `comunicazioni`, `comunicazioni_destinatari`, `email_log`, `template_comunicazioni`, `impostazioni`
+- Seed: 4 template comunicazioni base
+
 ## v1.4.0 - PDF, stampe professionali e report ufficiali (2026-05-13)
 
 ### Nuove funzionalita
@@ -25,7 +43,6 @@
 - Pulsanti stampa aggiunti a: dettaglio assemblea, dettaglio riparto, dettaglio condominio, morosita, preventivo, consuntivo
 - Voce "Stampe" aggiunta al menu di navigazione admin
 - Compatibilita completa con SupportHost/cPanel (HTML puro, nessuna libreria esterna)
-
 ## v1.3.0 - Riparti millesimali avanzati (2026-05-13)
 
 ### Nuove funzionalita
