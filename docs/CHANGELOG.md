@@ -1,5 +1,17 @@
 # Changelog
 
+## v2.0.0 - Multi-studio, tenant, ruoli granulari e SaaS readiness (2026-05-12)
+
+### Nuove funzionalita
+
+- **Multi-tenant/Studio** (`admin/studi.php`): Gestione studi/amministratori con isolamento dati, branding, limiti piano
+- **Ruoli granulari** (`admin/ruoli.php`): 9 ruoli predefiniti (super_admin, admin_studio, collaboratore, contabile, tecnico, fornitore, condomino, inquilino, sola_lettura)
+- **Permessi per modulo**: 28 permessi (lettura/scrittura) su 14 moduli, gestione via matrice ruolo/permesso
+- **SaaS readiness**: Piani (free, base, pro, enterprise), limiti condomini/unita/storage, stato abbonamento
+- **Schema DB**: Tabelle studi, ruoli, permessi, ruolo_permessi, studio_users + colonna studio_id su condomini
+- **Funzioni permesso**: `user_can()`, `require_permission()`, `is_super_admin()`, `current_studio_id()`, `tenant_condomini_filter()`
+- **Menu Amministrazione**: Dropdown con Utenti, Studi/Tenant, Ruoli e Permessi, Audit Log
+
 ## v1.3.0 - Riparti millesimali avanzati (2026-05-13)
 
 ### Nuove funzionalita

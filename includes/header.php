@@ -55,7 +55,16 @@
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/ticket.php'); ?>">Ticket</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/assemblee.php'); ?>">Assemblee</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/report.php'); ?>">Report</a></li>
-                            <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/utenti.php'); ?>">Utenti</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Amministrazione</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/utenti.php'); ?>">Utenti</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/studi.php'); ?>">Studi / Tenant</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/ruoli.php'); ?>">Ruoli e Permessi</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/audit-log.php'); ?>">Audit Log</a></li>
+                                </ul>
+                            </li>
                         <?php else: ?>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/area-condomino/dashboard.php'); ?>">Dashboard</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/area-condomino/profilo.php'); ?>">Profilo</a></li>
