@@ -37,3 +37,10 @@ ON DUPLICATE KEY UPDATE name=name;
 -- INSERT INTO persone (nome, cognome, tipo, codice_fiscale, email, telefono, created_at, updated_at) VALUES
 -- ('Mario', 'Rossi', 'persona', 'RSSMRA80A01H501A', 'mario.rossi@email.it', '3331234567', NOW(), NOW()),
 -- ('Anna', 'Bianchi', 'persona', 'BNCNNA85B41H501B', 'anna.bianchi@email.it', '3339876543', NOW(), NOW());
+
+-- Template comunicazioni base
+INSERT IGNORE INTO template_comunicazioni (nome, oggetto, corpo, tipo) VALUES
+('Sollecito pagamento', 'Sollecito di pagamento rate condominiali', 'Gentile {nome_destinatario},\n\ncon la presente Le comunichiamo che risultano non pagate le seguenti rate condominiali:\n\n{dettaglio_rate}\n\nTotale dovuto: {totale_dovuto}\n\nLa invitiamo a provvedere al pagamento entro 15 giorni dalla ricezione della presente comunicazione tramite bonifico bancario:\nIBAN: {iban_condominio}\nCausale: {causale}\n\nDistinti saluti,\nL''Amministratore', 'sollecito'),
+('Convocazione assemblea', 'Convocazione assemblea condominiale', 'Gentile Condomino/a,\n\ncon la presente si comunica che e stata convocata l''assemblea condominiale:\n\nData prima convocazione: {data_prima}\nData seconda convocazione: {data_seconda}\nLuogo: {luogo}\n\nOrdine del giorno:\n{ordine_giorno}\n\nSi prega di voler partecipare personalmente o tramite delega scritta.\n\nDistinti saluti,\nL''Amministratore', 'convocazione'),
+('Invio verbale', 'Verbale assemblea condominiale del {data_assemblea}', 'Gentile Condomino/a,\n\nsi trasmette in allegato il verbale dell''assemblea condominiale svoltasi in data {data_assemblea}.\n\nRestiamo a disposizione per eventuali chiarimenti.\n\nDistinti saluti,\nL''Amministratore', 'verbale'),
+('Comunicazione generica', '{oggetto}', 'Gentile Condomino/a,\n\n{corpo_messaggio}\n\nDistinti saluti,\nL''Amministratore', 'generico');
