@@ -55,6 +55,7 @@ include __DIR__ . '/../includes/header.php';
         </form>
         <?php endif; ?>
         <a href="<?php echo url('/admin/consuntivi.php?esercizio_id=' . (int)$preventivo['esercizio_id']); ?>" class="btn btn-outline-info btn-sm">Confronta Consuntivo</a>
+        <a href="stampa-preventivo.php?id=<?php echo (int)$preventivo['id']; ?>" class="btn btn-outline-info btn-sm" target="_blank">Stampa Preventivo</a>
         <a href="<?php echo url('/admin/preventivi.php'); ?>" class="btn btn-outline-secondary btn-sm">Indietro</a>
     </div>
 </div>
