@@ -363,4 +363,68 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- =====================================================
+-- Comunicazioni, template, email log, impostazioni
+-- =====================================================
+
+CREATE TABLE IF NOT EXISTS impostazioni (
+    chiave VARCHAR(100) PRIMARY KEY,
+    valore TEXT NULL,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS template_comunicazioni (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(190) NOT NULL,
+    oggetto VARCHAR(255) NOT NULL DEFAULT '',
+    corpo TEXT NOT NULL,
+    tipo ENUM('sollecito','convocazione','verbale','generico') NOT NULL DEFAULT 'generico',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS comunicazioni (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    condominio_id INT NOT NULL,
+    oggetto VARCHAR(255) NOT NULL,
+    corpo TEXT NOT NULL,
+    tipo ENUM('comunicazione','sollecito','convocazione','verbale') NOT NULL DEFAULT 'comunicazione',
+    destinatari_tipo ENUM('tutti','scala','unita','persona') NOT NULL DEFAULT 'tutti',
+    destinatari_filtro VARCHAR(255) NULL,
+    stato ENUM('bozza','inviata','archiviata') NOT NULL DEFAULT 'bozza',
+    template_id INT NULL,
+    created_by INT NULL,
+    inviata_at DATETIME NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (condominio_id) REFERENCES condomini(id) ON DELETE CASCADE,
+    FOREIGN KEY (template_id) REFERENCES template_comunicazioni(id) ON DELETE SET NULL,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS comunicazioni_destinatari (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    comunicazione_id INT NOT NULL,
+    persona_id INT NULL,
+    email VARCHAR(190) NULL,
+    nome VARCHAR(255) NULL,
+    stato ENUM('pending','inviato','errore','letto') NOT NULL DEFAULT 'pending',
+    inviato_at DATETIME NULL,
+    letto_at DATETIME NULL,
+    errore TEXT NULL,
+    FOREIGN KEY (comunicazione_id) REFERENCES comunicazioni(id) ON DELETE CASCADE,
+    FOREIGN KEY (persona_id) REFERENCES persone(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS email_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    comunicazione_id INT NULL,
+    destinatario_email VARCHAR(190) NOT NULL,
+    oggetto VARCHAR(255) NOT NULL,
+    stato ENUM('inviato','errore') NOT NULL,
+    errore TEXT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (comunicazione_id) REFERENCES comunicazioni(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 SET FOREIGN_KEY_CHECKS = 1;

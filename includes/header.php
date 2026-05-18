@@ -55,10 +55,20 @@
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/ticket.php'); ?>">Ticket</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/assemblee.php'); ?>">Assemblee</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/report.php'); ?>">Report</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Comunicazioni</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/comunicazioni.php'); ?>">Comunicazioni</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/template-comunicazioni.php'); ?>">Template</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="<?php echo url('/admin/impostazioni-email.php'); ?>">Impostazioni Email</a></li>
+                                </ul>
+                            </li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/stampe.php'); ?>">Stampe</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/admin/utenti.php'); ?>">Utenti</a></li>
                         <?php else: ?>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/area-condomino/dashboard.php'); ?>">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="<?php echo url('/area-condomino/comunicazioni.php'); ?>">Comunicazioni</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?php echo url('/area-condomino/profilo.php'); ?>">Profilo</a></li>
                         <?php endif; ?>
                     <?php endif; ?>
